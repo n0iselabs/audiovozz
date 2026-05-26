@@ -71,21 +71,21 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "AudioVoz Centro Auditivo — São Miguel Paulista | Audiometria Grátis | Desde 1998" },
+      { title: "AudioVoz — Centro Auditivo Especializado na Zona Leste | São Miguel Paulista | Desde 1998" },
       {
         name: "description",
         content:
-          "Clínica de saúde auditiva em São Miguel Paulista desde 1998. Teste e audiometria grátis. Mais de 25 anos de experiência. WhatsApp: (11) 95385-2353.",
+          "Clínica de saúde auditiva em São Miguel Paulista desde 1998. Avaliação auditiva gratuita com fonoaudiólogo especialista. Mais de 3.000 pacientes atendidos. WhatsApp: (11) 95385-2353.",
       },
       { name: "author", content: "AudioVoz — Centro Auditivo" },
       {
         property: "og:title",
-        content: "AudioVoz Centro Auditivo — São Miguel Paulista | Audiometria Grátis | Desde 1998",
+        content: "AudioVoz — Centro Auditivo Especializado na Zona Leste | São Miguel Paulista | Desde 1998",
       },
       {
         property: "og:description",
         content:
-          "Clínica de saúde auditiva em São Miguel Paulista desde 1998. Teste e audiometria grátis. Mais de 25 anos de experiência. WhatsApp: (11) 95385-2353.",
+          "Clínica de saúde auditiva em São Miguel Paulista desde 1998. Avaliação auditiva gratuita com fonoaudiólogo especialista. Mais de 3.000 pacientes atendidos. WhatsApp: (11) 95385-2353.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://sm.audiovozsp.com.br" },
@@ -95,12 +95,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
       {
         name: "twitter:title",
-        content: "AudioVoz Centro Auditivo — São Miguel Paulista | Audiometria Grátis | Desde 1998",
+        content: "AudioVoz — Centro Auditivo Especializado na Zona Leste | São Miguel Paulista | Desde 1998",
       },
       {
         name: "twitter:description",
         content:
-          "Clínica de saúde auditiva em São Miguel Paulista desde 1998. Teste e audiometria grátis. Mais de 25 anos de experiência. WhatsApp: (11) 95385-2353.",
+          "Clínica de saúde auditiva em São Miguel Paulista desde 1998. Avaliação auditiva gratuita com fonoaudiólogo especialista. Mais de 3.000 pacientes atendidos. WhatsApp: (11) 95385-2353.",
       },
       { name: "twitter:image", content: "https://sm.audiovozsp.com.br/images/frente-audiovoz.jpg" },
     ],
