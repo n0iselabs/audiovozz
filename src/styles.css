@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap");
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
@@ -146,24 +146,66 @@
 
 /* AudioVoz brand tokens */
 :root {
-  --av-bg: #F8F6F2;
-  --av-primary: #1A2D5A;
-  --av-primary-light: #1A4A6E;
-  --av-accent: #E05A1A;
-  --av-accent-hover: #C44E14;
-  --av-text: #1E2A3A;
-  --av-text-2: #5A6878;
-  --av-wa: #25D366;
-  --av-wa-hover: #1DA851;
-  --av-border: #E8E4DC;
-  --av-card: #FFFFFF;
-  --av-footer: #0F1E38;
+  --av-bg: #faf8f4;
+  --av-primary: #1a2d5a;
+  --av-primary-light: #1a4a6e;
+  --av-accent: #e05a1a;
+  --av-accent-hover: #c44e14;
+  --av-text: #1e2a3a;
+  --av-text-2: #5a6878;
+  --av-wa: #25d366;
+  --av-wa-hover: #1da851;
+  --av-border: #e8e4dc;
+  --av-card: #ffffff;
+  --av-footer: #0a1424;
 }
 
-html, body {
+/* Glass card — dark sections */
+.av-glass {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Premium card shadows — light sections */
+.av-card-lift {
+  box-shadow:
+    0 1px 8px rgba(15, 31, 57, 0.07),
+    0 1px 2px rgba(15, 31, 57, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96);
+  transition:
+    box-shadow 0.22s ease,
+    transform 0.22s ease;
+}
+.av-card-lift:hover {
+  box-shadow:
+    0 8px 32px rgba(15, 31, 57, 0.1),
+    0 2px 6px rgba(15, 31, 57, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96);
+  transform: translateY(-2px);
+}
+
+/* Subtle noise texture for dark sections */
+.av-noise::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.025;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 128px 128px;
+}
+
+html,
+body {
   background-color: var(--av-bg);
   color: var(--av-text);
-  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  font-family:
+    "Inter",
+    system-ui,
+    -apple-system,
+    sans-serif;
   font-size: 16px;
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
@@ -174,24 +216,53 @@ html, body {
 }
 
 @keyframes av-pulse {
-  0%, 100% { box-shadow: 0 6px 20px rgba(37, 211, 102, 0.35), 0 0 0 0 rgba(37, 211, 102, 0.6); }
-  50% { box-shadow: 0 6px 20px rgba(37, 211, 102, 0.45), 0 0 0 12px rgba(37, 211, 102, 0); }
+  0%,
+  100% {
+    box-shadow:
+      0 6px 20px rgba(37, 211, 102, 0.35),
+      0 0 0 0 rgba(37, 211, 102, 0.6);
+  }
+  50% {
+    box-shadow:
+      0 6px 20px rgba(37, 211, 102, 0.45),
+      0 0 0 12px rgba(37, 211, 102, 0);
+  }
 }
-.av-pulse { animation: av-pulse 2.4s ease-in-out infinite; }
+.av-pulse {
+  animation: av-pulse 2.4s ease-in-out infinite;
+}
 
 @keyframes av-accordion-down {
-  from { height: 0; opacity: 0; }
-  to   { height: var(--radix-accordion-content-height); opacity: 1; }
+  from {
+    height: 0;
+    opacity: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+    opacity: 1;
+  }
 }
 @keyframes av-accordion-up {
-  from { height: var(--radix-accordion-content-height); opacity: 1; }
-  to   { height: 0; opacity: 0; }
+  from {
+    height: var(--radix-accordion-content-height);
+    opacity: 1;
+  }
+  to {
+    height: 0;
+    opacity: 0;
+  }
 }
-[data-state="open"] > .av-acc-content { animation: av-accordion-down 200ms ease-out; }
-[data-state="closed"] > .av-acc-content { animation: av-accordion-up 200ms ease-out; }
+[data-state="open"] > .av-acc-content {
+  animation: av-accordion-down 200ms ease-out;
+}
+[data-state="closed"] > .av-acc-content {
+  animation: av-accordion-up 200ms ease-out;
+}
 
 /* Scroll suave em toda a página */
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+}
 
 /* Foco acessível nos links e botões interativos */
 a:focus-visible,
@@ -203,13 +274,25 @@ button:focus-visible {
 
 /* === Animations === */
 @keyframes avFadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes avFadeScale {
-  from { opacity: 0; transform: scale(1.03); }
-  to   { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(1.03);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* Hero: dispara no carregamento da página */
@@ -230,8 +313,9 @@ button:focus-visible {
 .av-reveal {
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition:
+    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   transition-delay: var(--d, 0s);
 }
 .av-reveal.visible {
@@ -247,9 +331,37 @@ button:focus-visible {
   display: none;
 }
 
+/* Modal animations */
+@keyframes avModalIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+@keyframes avBackdropIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.av-modal-in {
+  animation: avModalIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.av-backdrop-in {
+  animation: avBackdropIn 0.2s ease both;
+}
+
 /* Reduzir motion para usuários que preferem */
 @media (prefers-reduced-motion: reduce) {
-  .av-pulse { animation: none; }
+  .av-pulse {
+    animation: none;
+  }
   .av-load,
   .av-load-scale {
     opacity: 1 !important;
@@ -259,5 +371,9 @@ button:focus-visible {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
+  }
+  .av-modal-in,
+  .av-backdrop-in {
+    animation: none !important;
   }
 }

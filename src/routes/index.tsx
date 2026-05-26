@@ -17,10 +17,7 @@ import {
   Ear,
   Heart,
   Sparkles,
-  Accessibility,
   Activity,
-  Mic,
-  Stethoscope,
   HeadphonesIcon,
   CheckCircle2,
   Phone,
@@ -46,7 +43,7 @@ const WA_LINK_FLOAT =
 function WhatsAppIcon({ className = "h-5 w-5" }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true">
-      <path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 0 1 8.413 3.488 11.82 11.82 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 0 0 1.51 5.26l.4.633-1.003 3.66 3.747-.984.835.732zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.297.298-.495.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.371-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/>
+      <path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 0 1 8.413 3.488 11.82 11.82 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 0 0 1.51 5.26l.4.633-1.003 3.66 3.747-.984.835.732zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.297.298-.495.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.371-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z" />
     </svg>
   );
 }
@@ -112,24 +109,24 @@ function WhatsAppButton({
 function useRevealOnScroll() {
   React.useEffect(() => {
     let io: IntersectionObserver | undefined;
-    let raf1: number;
     let raf2: number;
 
     // Double-RAF: garante que o browser pintou o estado opacity:0
     // antes do observer disparar — sem isso a CSS transition é ignorada
-    raf1 = requestAnimationFrame(() => {
+    const raf1 = requestAnimationFrame(() => {
       raf2 = requestAnimationFrame(() => {
-        const els = document.querySelectorAll<Element>('.av-reveal');
+        const els = document.querySelectorAll<Element>(".av-reveal");
         io = new IntersectionObserver(
-          (entries) => entries.forEach(e => {
-            if (e.isIntersecting) {
-              e.target.classList.add('visible');
-              io!.unobserve(e.target);
-            }
-          }),
-          { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+          (entries) =>
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                e.target.classList.add("visible");
+                io!.unobserve(e.target);
+              }
+            }),
+          { threshold: 0.1, rootMargin: "0px 0px -40px 0px" },
         );
-        els.forEach(el => io!.observe(el));
+        els.forEach((el) => io!.observe(el));
       });
     });
 
@@ -153,8 +150,12 @@ function Header() {
   ];
   return (
     <header
-      className="sticky top-0 z-40 w-full border-b bg-white/95 backdrop-blur"
-      style={{ borderColor: "var(--av-border)" }}
+      className="sticky top-0 z-40 w-full backdrop-blur-sm"
+      style={{
+        backgroundColor: "rgba(253,251,248,0.97)",
+        borderBottom: "1px solid rgba(228,220,208,0.72)",
+        boxShadow: "0 1px 0 rgba(228,220,208,0.5), 0 2px 20px rgba(26,45,90,0.05)",
+      }}
     >
       <div className="mx-auto flex h-16 max-w-[1200px] items-center justify-between px-5 md:h-[72px] md:px-8">
         <a href="#top" className="flex items-center gap-2" aria-label="AudioVoz — Centro Auditivo">
@@ -163,12 +164,6 @@ function Header() {
             alt="AudioVoz"
             className="h-8 w-auto object-contain md:h-9"
           />
-          <span
-            className="hidden text-[12px] font-medium uppercase tracking-wider sm:inline"
-            style={{ color: "var(--av-text-2)" }}
-          >
-            Centro Auditivo
-          </span>
         </a>
         <nav className="hidden lg:flex items-center gap-7">
           {navItems.map((i) => (
@@ -233,100 +228,164 @@ function Hero() {
   return (
     <section
       id="top"
-      className="relative overflow-hidden text-white"
-      style={{ backgroundColor: "#0F1E38", minHeight: "580px" }}
+      className="av-noise relative overflow-hidden text-white"
+      style={{
+        background: "radial-gradient(ellipse at 28% 62%, #1B3A6C 0%, #0D1D3A 52%, #060B18 100%)",
+        minHeight: "580px",
+      }}
     >
       {/* ── Background foto — mobile only ── */}
       <div aria-hidden className="absolute inset-0 lg:hidden">
-        <img src="/images/audiovoz-sm.jpg" alt="" className="h-full w-full object-cover object-center" />
-        <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(10,20,45,0.80) 0%, rgba(10,20,45,0.65) 45%, rgba(10,20,45,0.85) 100%)" }} />
+        <img
+          src="/images/jurandy_fono_sm.jpg"
+          alt=""
+          className="h-full w-full object-cover object-center"
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to bottom, rgba(6,11,24,0.88) 0%, rgba(10,20,45,0.70) 45%, rgba(6,11,24,0.92) 100%)",
+          }}
+        />
       </div>
 
       {/* ── Foto editorial — desktop: sangra à direita, full-height ── */}
       <div
         aria-hidden
-        className="av-load-scale absolute inset-y-0 right-0 hidden w-[50%] lg:block"
-        style={{ '--d': '0.18s' } as React.CSSProperties}
+        className="av-load-scale absolute inset-y-0 right-0 hidden w-[55%] lg:block"
+        style={{ "--d": "0.18s" } as React.CSSProperties}
       >
         <img
-          src="/images/audiovoz-sm.jpg"
+          src="/images/jurandy_fono_sm.jpg"
           alt=""
-          className="h-full w-full object-cover object-center"
+          className="h-full w-full object-cover object-[50%_25%]"
+          style={{
+            maskImage:
+              "linear-gradient(to right, transparent 0%, rgba(0,0,0,0.4) 18%, rgba(0,0,0,0.85) 35%, black 50%), linear-gradient(to top, transparent 0%, black 22%)",
+            WebkitMaskImage:
+              "linear-gradient(to right, transparent 0%, rgba(0,0,0,0.4) 18%, rgba(0,0,0,0.85) 35%, black 50%), linear-gradient(to top, transparent 0%, black 22%)",
+            maskComposite: "intersect",
+            WebkitMaskComposite: "source-in",
+          }}
         />
-        {/* Badge Google */}
-        <div className="absolute right-5 top-6 flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-[13px] font-medium backdrop-blur">
-          <Star className="h-3.5 w-3.5 shrink-0" style={{ color: "#ffd76b" }} />
-          <span>Nota 5 no Google · 733 avaliações</span>
-        </div>
         {/* Quote card */}
-        <div className="absolute bottom-6 left-[15%] right-5">
+        <div className="absolute bottom-20 left-[14%] right-5">
           <div
-            className="rounded-xl border border-white/15 p-5 backdrop-blur"
-            style={{ backgroundColor: "rgba(15,30,56,0.65)" }}
+            className="av-glass rounded-xl border p-5"
+            style={{
+              backgroundColor: "rgba(10,20,42,0.60)",
+              borderColor: "rgba(255,255,255,0.12)",
+              boxShadow: "0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.07)",
+            }}
           >
             <p className="font-serif text-[18px] font-semibold leading-snug">
               "Desde 1998, o atendimento começa pela escuta."
             </p>
-            <p className="mt-2 text-[13px] text-white/80">
+            <p className="mt-2 text-[13px] text-white/75">
               Jurandy — Fonoaudiólogo fundador · AudioVoz, São Miguel Paulista
             </p>
           </div>
         </div>
       </div>
 
-      {/* ── Luz sutil no canto superior esquerdo ── */}
+      {/* ── Glow ambiente — lado do conteúdo ── */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -left-24 -top-24 h-[400px] w-[400px] rounded-full opacity-10"
+        className="pointer-events-none absolute inset-y-0 left-0 w-[55%] opacity-25"
+        style={{
+          background:
+            "radial-gradient(ellipse at 5% 55%, rgba(40,90,180,0.55) 0%, transparent 65%)",
+        }}
+      />
+      {/* ── Glow accent — canto superior esquerdo ── */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -left-20 -top-20 h-[380px] w-[380px] rounded-full opacity-15"
         style={{ background: "radial-gradient(closest-side, #E05A1A, transparent 70%)" }}
       />
 
       {/* ── Conteúdo principal ── */}
       <div className="relative mx-auto w-full max-w-[1200px] px-5 py-14 md:px-8 md:py-20 lg:py-24">
         <div className="w-full max-w-[560px]">
-          <p className="av-load text-[14px] font-medium text-white/80">
-            Clínica de saúde auditiva em São Miguel Paulista
-          </p>
-          <span
-            className="av-load mt-3 inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-[13px] font-semibold text-white"
-            style={{ borderColor: "rgba(224,90,26,0.85)", backgroundColor: "rgba(224,90,26,0.28)", '--d': '0.1s' } as React.CSSProperties}
+          <div
+            className="av-load inline-flex items-center gap-2 rounded-full px-4 py-1.5"
+            style={{
+              backgroundColor: "rgba(255,255,255,0.08)",
+              border: "1px solid rgba(255,255,255,0.18)",
+            }}
           >
-            <CheckCircle2 className="h-3.5 w-3.5 shrink-0" /> Teste e audiometria grátis
-          </span>
-          <h1 className="av-load font-serif mt-5 text-[28px] font-bold leading-[1.15] md:text-[40px] lg:text-[48px]"
-            style={{ '--d': '0.22s' } as React.CSSProperties}>
-            Cuidado auditivo especializado aqui em São Miguel Paulista.
+            <span
+              className="h-1.5 w-1.5 flex-shrink-0 rounded-full"
+              style={{ backgroundColor: "var(--av-accent)" }}
+            />
+            <span className="text-[13px] font-medium tracking-wide text-white/85">
+              Fonoaudiólogo especialista · Desde 1998
+            </span>
+          </div>
+          <h1
+            className="av-load font-serif mt-5 text-[28px] font-bold leading-[1.15] md:text-[40px] lg:text-[48px]"
+            style={{ "--d": "0.22s" } as React.CSSProperties}
+          >
+            Centro Auditivo Especializado na Zona Leste de São Paulo.
           </h1>
-          <p className="av-load mt-5 text-[17px] leading-[1.6] text-white/90 md:text-[18px]"
-            style={{ '--d': '0.34s' } as React.CSSProperties}>
-            A AudioVoz está no seu bairro. Atendimento fonoaudiológico, audiometria e aparelhos auditivos — de quem cuida da audição de famílias da Zona Leste desde 1998.
+          <p
+            className="av-load mt-5 max-w-[420px] text-[17px] leading-[1.6] text-white/90 md:text-[18px]"
+            style={{ "--d": "0.34s" } as React.CSSProperties}
+          >
+            A AudioVoz está no seu bairro. Avaliação auditiva, audiometria e aparelhos auditivos —
+            de quem cuida da audição de famílias da Zona Leste desde 1998.
           </p>
-          <ul className="av-load mt-5 grid gap-2" style={{ '--d': '0.46s' } as React.CSSProperties}>
-            {[
-              "Clínica auditiva em São Miguel Paulista e Zona Leste",
-              "Teste e audiometria grátis",
-              "Audiometria, fonoterapia e aparelhos auditivos",
-              "Atendimento para adultos, idosos e crianças",
-            ].map((t) => (
-              <li key={t} className="flex items-start gap-2.5 text-[15px] font-medium text-white">
-                <CheckCircle2 className="mt-0.5 h-[18px] w-[18px] shrink-0" style={{ color: "rgba(255,255,255,0.9)" }} />
-                <span>{t}</span>
-              </li>
-            ))}
-          </ul>
-          <div className="av-load mt-7 flex flex-col items-start gap-3" style={{ '--d': '0.58s' } as React.CSSProperties}>
+
+          {/* Trust stats — prova social */}
+          <div
+            className="av-load mt-5 flex flex-wrap items-center gap-x-4 gap-y-2"
+            style={{ "--d": "0.44s" } as React.CSSProperties}
+          >
+            <div className="flex items-center gap-2">
+              <div className="flex gap-0.5">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star key={i} className="h-3.5 w-3.5 fill-current" style={{ color: "#ffd76b" }} />
+                ))}
+              </div>
+              <span className="text-[14px] font-bold text-white">5.0</span>
+              <span className="text-[13px] text-white/55">no Google</span>
+            </div>
+            <span
+              aria-hidden
+              className="h-[14px] w-px"
+              style={{ backgroundColor: "rgba(255,255,255,0.2)" }}
+            />
+            <div className="flex items-center gap-1.5">
+              <span className="text-[14px] font-bold text-white">+730</span>
+              <span className="text-[13px] text-white/55">avaliações</span>
+            </div>
+            <span
+              aria-hidden
+              className="h-[14px] w-px"
+              style={{ backgroundColor: "rgba(255,255,255,0.2)" }}
+            />
+            <div className="flex items-center gap-1.5">
+              <span className="text-[14px] font-bold text-white">+3.000</span>
+              <span className="text-[13px] text-white/55">pacientes</span>
+            </div>
+          </div>
+
+          <div
+            className="av-load mt-7 flex flex-col items-start gap-3"
+            style={{ "--d": "0.58s" } as React.CSSProperties}
+          >
             <WhatsAppButton href={WA_LINK} className="w-full md:w-auto">
-              Agende sua audiometria grátis — São Miguel Paulista
+              Agende sua avaliação auditiva — Zona Leste
             </WhatsAppButton>
             <a href="#servicos" className="text-[14px] text-white underline underline-offset-4">
-              Conheça nossos serviços em São Miguel
+              Conheça nossos serviços
             </a>
             <p className="text-[13px] text-white/75">
-              O primeiro passo pode ser simples: agende seu teste auditivo gratuito.
+              O primeiro passo pode ser simples: agende sua avaliação auditiva gratuita.
             </p>
           </div>
         </div>
-
       </div>
     </section>
   );
@@ -336,55 +395,85 @@ function Hero() {
 function TrustBlock() {
   const items = [
     { icon: Clock, text: "Cuidando da audição de famílias desde 1998" },
-    { icon: CalendarCheck, text: "Teste e audiometria grátis" },
+    { icon: CalendarCheck, text: "Avaliação auditiva gratuita" },
     { icon: Star, text: "Nota 5 no Google com 733 avaliações" },
     { icon: Users, text: "Atendemos adultos, idosos e crianças" },
-    { icon: MapPin, text: "Atendemos São Miguel Paulista e Zona Leste" },
+    { icon: MapPin, text: "Localizada em São Miguel Paulista, na Zona Leste" },
     { icon: MessageCircle, text: "Agendamento pelo WhatsApp" },
     { icon: Wrench, text: "Ajustes vitalícios e garantia de 2 anos" },
   ];
   return (
-    <Section className="py-14 md:py-20">
-      <div className="av-reveal mx-auto max-w-3xl text-center">
-        <H2>Por que tantas famílias escolhem a AudioVoz?</H2>
-        <p className="mt-5 text-[16px] leading-[1.65] md:text-[17px]" style={{ color: "var(--av-text-2)" }}>
-          A AudioVoz acompanha a saúde auditiva de famílias de São Miguel Paulista e da Zona Leste desde 1998 — mais de 25 anos com fonoaudiólogo fundador à frente e atendimento que começa pela escuta. Reconhecida no Google por quem passou por aqui e fez questão de recomendar.
-        </p>
-      </div>
+    <section
+      className="relative overflow-hidden py-16 md:py-24"
+      style={{ background: "linear-gradient(180deg, #FAF8F4 0%, #F0EAE0 100%)" }}
+    >
+      {/* Bridge — funde a seção escura anterior */}
       <div
-        className="mt-10 rounded-2xl py-10 px-6 md:px-10"
-        style={{ backgroundColor: "var(--av-card)", border: "1px solid var(--av-border)" }}
-      >
-        <ul className="grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-7">
-          {items.map(({ icon: Icon, text }, i) => (
-            <li key={text} className="av-reveal flex flex-col items-center text-center" style={{ '--d': `${i * 0.07}s` } as React.CSSProperties}>
-              <span
-                className="inline-flex h-12 w-12 items-center justify-center rounded-full"
-                style={{ backgroundColor: "rgba(224,90,26,0.10)", color: "var(--av-accent)" }}
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-20 md:h-28"
+        style={{
+          background: "linear-gradient(to bottom, rgba(10,22,40,0.20) 0%, transparent 100%)",
+        }}
+      />
+      <div className="relative mx-auto w-full max-w-[1200px] px-5 md:px-8">
+        <div className="av-reveal mx-auto max-w-3xl text-center">
+          <H2>Por que tantas famílias escolhem a AudioVoz?</H2>
+          <p
+            className="mt-5 text-[16px] leading-[1.65] md:text-[17px]"
+            style={{ color: "var(--av-text-2)" }}
+          >
+            A AudioVoz acompanha a saúde auditiva de famílias da Zona Leste desde 1998 — mais de 25
+            anos com fonoaudiólogo fundador à frente e atendimento que começa pela escuta. Reconhecida
+            no Google por quem passou por aqui e fez questão de recomendar.
+          </p>
+        </div>
+        <div
+          className="mt-10 rounded-2xl px-8 py-12 md:px-12"
+          style={{
+            background: "#FFFFFF",
+            border: "1px solid rgba(15,31,57,0.07)",
+            boxShadow:
+              "0 4px 24px rgba(15,31,57,0.07), 0 1px 4px rgba(15,31,57,0.04), inset 0 1px 0 rgba(255,255,255,0.96)",
+          }}
+        >
+          <ul className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-7">
+            {items.map(({ icon: Icon, text }, i) => (
+              <li
+                key={text}
+                className="av-reveal flex flex-col items-center text-center"
+                style={{ "--d": `${i * 0.07}s` } as React.CSSProperties}
               >
-                <Icon className="h-6 w-6" />
-              </span>
-              <p className="mt-3 text-[13px] font-semibold leading-snug" style={{ color: "var(--av-text)" }}>
-                {text}
-              </p>
-            </li>
-          ))}
-        </ul>
+                <span
+                  className="inline-flex h-14 w-14 items-center justify-center rounded-full"
+                  style={{ backgroundColor: "rgba(224,90,26,0.12)", color: "var(--av-accent)" }}
+                >
+                  <Icon className="h-7 w-7" />
+                </span>
+                <p
+                  className="mt-3 text-[14px] font-semibold leading-snug"
+                  style={{ color: "var(--av-text)" }}
+                >
+                  {text}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
-    </Section>
+    </section>
   );
 }
 
 /* ---------------- CTA MID ---------------- */
 function CtaMid() {
   return (
-    <section className="py-8 md:py-12">
+    <section className="py-8 md:py-12" style={{ backgroundColor: "#F6F3ED" }}>
       <div className="av-reveal mx-auto flex max-w-[640px] flex-col items-center px-5 text-center">
         <WhatsAppButton href={WA_LINK} className="w-full md:w-auto md:min-w-[360px]">
-          Agende sua audiometria grátis
+          Agende sua avaliação auditiva
         </WhatsAppButton>
         <p className="mt-3 text-[14px]" style={{ color: "var(--av-text-2)" }}>
-          Fale pelo WhatsApp · São Miguel Paulista · Sem compromisso.
+          Fale pelo WhatsApp · na sua região · Sem compromisso.
         </p>
       </div>
     </section>
@@ -397,62 +486,47 @@ function Audience() {
     {
       icon: Ear,
       title: "Adultos com dificuldade auditiva",
-      text:
-        "Você percebe que está pedindo para repetir mais do que antes? Ou que a televisão ficou alta demais? Qualquer sinal de dificuldade auditiva merece atenção. A AudioVoz está aqui para orientar você, desde a primeira conversa.",
+      text: "Você percebe que está pedindo para repetir mais do que antes? Ou que a televisão ficou alta demais? Qualquer sinal de dificuldade auditiva merece atenção. A AudioVoz está aqui para orientar você, desde a primeira conversa.",
     },
     {
       icon: Heart,
       title: "Familiares de idosos",
-      text:
-        "Seu pai ou sua mãe está com dificuldade para ouvir e você quer ajudar? Sabemos que essa situação pode ser delicada. A AudioVoz atende famílias nesse momento com cuidado, paciência e orientação clara sobre as melhores opções.",
+      text: "Seu pai ou sua mãe está com dificuldade para ouvir e você quer ajudar? Sabemos que essa situação pode ser delicada. A AudioVoz atende famílias nesse momento com cuidado, paciência e orientação clara sobre as melhores opções.",
     },
     {
       icon: Sparkles,
       title: "Crianças",
-      text:
-        "O desenvolvimento auditivo é fundamental para a fala e o aprendizado. Se você tem alguma preocupação com a audição do seu filho, a AudioVoz oferece atendimento com atenção às necessidades de cada criança e à tranquilidade de cada família.",
+      text: "O desenvolvimento auditivo é fundamental para a fala e o aprendizado. A AudioVoz oferece atendimento com atenção, acolhimento e respeito às necessidades de cada criança — e à tranquilidade de cada família.",
     },
     {
       icon: HeadphonesIcon,
       title: "Quem já usa aparelho auditivo",
-      text:
-        "Já usa aparelho auditivo e precisa de ajuste, manutenção ou uma nova avaliação? A AudioVoz também cuida de quem já está em acompanhamento — com ajustes vitalícios e o mesmo cuidado de sempre.",
-    },
-    {
-      icon: Accessibility,
-      title: "Pessoas com necessidades específicas",
-      text:
-        "A AudioVoz tem experiência com atendimento para pessoas com necessidades específicas, incluindo pessoas autistas. Cada atendimento é conduzido com respeito, atenção e no ritmo de cada pessoa.",
+      text: "Já usa aparelho auditivo e precisa de ajuste, manutenção ou uma nova avaliação? A AudioVoz também cuida de quem já está em acompanhamento — com ajustes vitalícios e o mesmo cuidado de sempre.",
     },
   ];
   return (
-    <section id="para-quem" className="relative overflow-hidden py-14 md:py-20" style={{ backgroundColor: "var(--av-primary)" }}>
-      {/* Dot grid */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.04]" style={{ backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)", backgroundSize: "28px 28px" }} />
-      {/* Accent glow — top right */}
-      <div aria-hidden className="pointer-events-none absolute -right-32 -top-32 h-[500px] w-[500px] rounded-full opacity-15" style={{ background: "radial-gradient(closest-side, #E05A1A, transparent 70%)" }} />
-      {/* Light glow — bottom left */}
-      <div aria-hidden className="pointer-events-none absolute -bottom-24 -left-24 h-[380px] w-[380px] rounded-full opacity-10" style={{ background: "radial-gradient(closest-side, #4A90D9, transparent 70%)" }} />
-
+    <section
+      id="para-quem"
+      className="relative overflow-hidden py-14 md:py-20"
+      style={{ background: "linear-gradient(180deg, #FFFFFF 0%, #F8F4EE 100%)" }}
+    >
       <div className="relative mx-auto w-full max-w-[1200px] px-5 md:px-8">
         <div className="av-reveal mx-auto max-w-3xl text-center">
-          <h2 className="font-serif font-semibold text-[22px] leading-tight text-white md:text-[32px] lg:text-[36px]">
+          <H2>
             A AudioVoz atende quem precisa de atenção auditiva — em qualquer fase da vida.
-          </h2>
-          <p className="mt-4 text-[16px] leading-[1.65] text-white/75 md:text-[17px]">
-            Adultos, idosos, crianças ou quem já usa aparelho auditivo. Cada atendimento começa pela escuta.
+          </H2>
+          <p className="mt-4 text-[16px] leading-[1.65] md:text-[17px]" style={{ color: "var(--av-text-2)" }}>
+            Adultos, idosos, crianças ou quem já usa aparelho auditivo. Cada atendimento começa pela
+            escuta.
           </p>
         </div>
-        <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {cards.slice(0, 3).map((c, i) => (
-            <div key={c.title} className="av-reveal" style={{ '--d': `${i * 0.1}s` } as React.CSSProperties}>
-              <AudienceCard {...c} />
-            </div>
-          ))}
-        </div>
-        <div className="mt-5 grid gap-5 md:grid-cols-2 lg:mx-auto lg:max-w-[820px] lg:grid-cols-2">
-          {cards.slice(3).map((c, i) => (
-            <div key={c.title} className="av-reveal" style={{ '--d': `${i * 0.1}s` } as React.CSSProperties}>
+        <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+          {cards.map((c, i) => (
+            <div
+              key={c.title}
+              className="av-reveal h-full"
+              style={{ "--d": `${i * 0.1}s` } as React.CSSProperties}
+            >
               <AudienceCard {...c} />
             </div>
           ))}
@@ -473,21 +547,23 @@ function AudienceCard({
 }) {
   return (
     <article
-      className="rounded-xl p-6 transition-all duration-200 hover:-translate-y-0.5"
-      style={{ backgroundColor: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.12)", boxShadow: "0 4px 24px rgba(0,0,0,0.15)" }}
+      className="av-card-lift h-full rounded-xl p-7"
+      style={{
+        backgroundColor: "#FFFFFF",
+        border: "1px solid rgba(15,31,57,0.08)",
+      }}
     >
       <span
         className="inline-flex h-12 w-12 items-center justify-center rounded-xl"
-        style={{ backgroundColor: "rgba(224,90,26,0.22)", color: "#fda869" }}
+        style={{
+          backgroundColor: "rgba(224,90,26,0.10)",
+          color: "var(--av-accent)",
+        }}
       >
         <Icon className="h-6 w-6" />
       </span>
-      <h3 className="font-serif mt-4 text-[20px] font-semibold text-white">
-        {title}
-      </h3>
-      <p className="mt-3 text-[16px] leading-[1.65] text-white/70">
-        {text}
-      </p>
+      <h3 className="font-serif mt-4 text-[20px] font-semibold" style={{ color: "var(--av-text)" }}>{title}</h3>
+      <p className="mt-3 text-[16px] leading-[1.65]" style={{ color: "var(--av-text-2)" }}>{text}</p>
     </article>
   );
 }
@@ -498,36 +574,25 @@ function Services() {
     {
       icon: Activity,
       title: "Audiometria",
-      text:
-        "Avaliação da capacidade auditiva realizada com equipamento adequado e interpretação profissional. Um passo importante para entender como está sua audição e quais são as melhores opções de cuidado.",
-    },
-    {
-      icon: Mic,
-      title: "Fonoterapia",
-      text:
-        "Acompanhamento fonoaudiológico para diferentes necessidades — incluindo reabilitação auditiva, fala e desenvolvimento da linguagem. Realizado por profissional especializado com atenção individualizada.",
+      text: "Avaliação da capacidade auditiva realizada com equipamento adequado e interpretação profissional. Um passo importante para entender como está sua audição e quais são as melhores opções de cuidado.",
     },
     {
       icon: Ear,
       title: "Aparelhos Auditivos",
-      text:
-        "Seleção e adaptação de aparelhos auditivos com base na avaliação auditiva de cada pessoa. A indicação leva em conta suas necessidades reais — não apenas o produto disponível. Garantia de 2 anos e ajustes vitalícios incluídos.",
+      text: "Seleção e adaptação de aparelhos auditivos com base na avaliação auditiva de cada pessoa. A indicação leva em conta suas necessidades reais — não apenas o produto disponível. Garantia de 2 anos e ajustes vitalícios incluídos.",
     },
     {
       icon: Wrench,
-      title: "Aparelhos Auditivos Sob Medida",
-      text:
-        "Aparelhos desenvolvidos com adaptação individual para garantir conforto, eficiência e adequação ao perfil auditivo de cada paciente. Parcele em até 12x sem juros.",
-    },
-    {
-      icon: Stethoscope,
-      title: "Atendimento Fonoaudiológico",
-      text:
-        "Consulta e orientação fonoaudiológica para adultos, idosos e crianças. A equipe escuta sua necessidade e indica o caminho mais adequado — sem pressa e sem pressão.",
+      title: "Modelos para Todo Perfil",
+      text: "Diversos modelos de aparelhos auditivos — das versões básicas às mais discretas e modernas. Baterias e acessórios disponíveis na unidade. Melhor preço da Zona Leste.",
     },
   ];
   return (
-    <Section id="servicos" className="py-14 md:py-20" style={{ backgroundColor: "var(--av-card)" }}>
+    <Section
+      id="servicos"
+      className="py-14 md:py-20"
+      style={{ background: "linear-gradient(180deg, #FAF8F4 0%, #F0EAE0 100%)" }}
+    >
       <div className="av-reveal mx-auto max-w-3xl text-center">
         <H2>O que oferecemos</H2>
         <p className="mt-4 text-[16px] md:text-[17px]" style={{ color: "var(--av-text-2)" }}>
@@ -535,16 +600,13 @@ function Services() {
         </p>
       </div>
       <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-        {cards.slice(0, 3).map((c, i) => (
-          <div key={c.title} className="av-reveal" style={{ '--d': `${i * 0.1}s` } as React.CSSProperties}>
+        {cards.map((c, i) => (
+          <div
+            key={c.title}
+            className="av-reveal h-full"
+            style={{ "--d": `${i * 0.1}s` } as React.CSSProperties}
+          >
             <ServiceCard {...c} index={i} />
-          </div>
-        ))}
-      </div>
-      <div className="mt-5 grid gap-5 md:grid-cols-2 lg:mx-auto lg:max-w-[820px] lg:grid-cols-2">
-        {cards.slice(3).map((c, i) => (
-          <div key={c.title} className="av-reveal" style={{ '--d': `${i * 0.1}s` } as React.CSSProperties}>
-            <ServiceCard {...c} index={i + 3} />
           </div>
         ))}
       </div>
@@ -565,10 +627,10 @@ function ServiceCard({
 }) {
   return (
     <article
-      className="relative overflow-hidden rounded-xl p-6 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_32px_rgba(26,74,110,0.12)]"
+      className="av-card-lift relative h-full overflow-hidden rounded-xl p-6 transition-all duration-200 hover:-translate-y-1"
       style={{
-        backgroundColor: "var(--av-bg)",
-        border: "1px solid var(--av-border)",
+        background: "#FFFFFF",
+        border: "1px solid rgba(15,31,57,0.07)",
         borderTop: "3px solid var(--av-accent)",
       }}
     >
@@ -577,11 +639,15 @@ function ServiceCard({
         className="pointer-events-none absolute right-4 top-3 select-none font-mono text-[52px] font-bold leading-none"
         style={{ color: "rgba(26,45,90,0.055)" }}
       >
-        {String(index + 1).padStart(2, '0')}
+        {String(index + 1).padStart(2, "0")}
       </span>
       <span
         className="inline-flex h-14 w-14 items-center justify-center rounded-xl"
-        style={{ backgroundColor: "rgba(224,90,26,0.10)", color: "var(--av-accent)" }}
+        style={{
+          backgroundColor: "rgba(224,90,26,0.10)",
+          color: "var(--av-accent)",
+          boxShadow: "0 4px 14px rgba(224,90,26,0.12)",
+        }}
       >
         <Icon className="h-7 w-7" />
       </span>
@@ -598,50 +664,88 @@ function ServiceCard({
 /* ---------------- ABOUT + JURANDY (fundidas) ---------------- */
 function About() {
   return (
-    <Section id="sobre" className="py-14 md:py-20">
-      <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[55%_45%] lg:gap-14">
-        <div className="av-reveal order-2 lg:order-1">
-          <H2 className="text-center lg:text-left">Quem somos</H2>
-          <p className="mt-5 text-[16px] leading-[1.7] md:text-[17px]" style={{ color: "var(--av-text)" }}>
-            A AudioVoz nasceu de um propósito simples: oferecer cuidado auditivo de verdade. Não somos uma loja de aparelhos — somos uma clínica de saúde auditiva. E por trás dessa visão está Jurandy, fonoaudiólogo fundador à frente da clínica desde 1998.
-          </p>
-          <p className="mt-4 text-[16px] leading-[1.7] md:text-[17px]" style={{ color: "var(--av-text)" }}>
-            Reconhecido na Zona Leste, ele conduz a AudioVoz com uma visão clara: antes de indicar qualquer solução, é preciso escutar a pessoa, entender sua necessidade e orientar com responsabilidade.
-          </p>
-          <p className="mt-4 text-[16px] leading-[1.7] md:text-[17px]" style={{ color: "var(--av-text)" }}>
-            É essa forma de atendimento — próxima, cuidadosa e sem pressa — que guia a AudioVoz em São Miguel Paulista e em Guarulhos.
-          </p>
-          <p
-            className="mt-6 border-l-2 pl-4 text-[15px] italic"
-            style={{ borderColor: "var(--av-accent)", color: "var(--av-text-2)" }}
-          >
-            Não vendemos produto. Oferecemos cuidado. A diferença aparece desde a primeira conversa.
-          </p>
-        </div>
-        <div className="av-reveal order-1 lg:order-2" style={{ '--d': '0.15s' } as React.CSSProperties}>
-          <div
-            className="relative mx-auto w-full max-w-[420px] overflow-hidden rounded-2xl shadow-xl"
-            style={{ border: "3px solid var(--av-border)", aspectRatio: "1 / 1" }}
-          >
-            <img
-              src="/images/jurandy-foto.png"
-              alt="Jurandy, fonoaudiólogo fundador da AudioVoz, na unidade de São Miguel Paulista"
-              className="h-full w-full object-cover"
-              loading="lazy"
-            />
-            <div
-              className="absolute bottom-0 left-0 right-0 px-4 py-4"
-              style={{ background: "linear-gradient(to top, rgba(15,30,56,0.85) 0%, transparent 100%)" }}
+    <section
+      id="sobre"
+      className="relative overflow-hidden py-16 md:py-24"
+      style={{ background: "linear-gradient(180deg, #FAF8F4 0%, #F0EAE0 100%)" }}
+    >
+      <div className="relative mx-auto w-full max-w-[1200px] px-5 md:px-8">
+        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[1fr_1fr] lg:gap-16">
+          <div className="av-reveal order-2 lg:order-1">
+            <H2 className="text-center lg:text-left">Por trás da AudioVoz</H2>
+            <p
+              className="mt-5 text-[16px] leading-[1.75] md:text-[17px]"
+              style={{ color: "var(--av-text)" }}
             >
-              <p className="text-[14px] font-semibold text-white">
-                Jurandy — Fonoaudiólogo fundador
+              A AudioVoz nasceu de um propósito simples: oferecer cuidado auditivo de verdade. Não
+              somos uma loja de aparelhos — somos uma clínica de saúde auditiva. E por trás dessa
+              visão está Jurandy, fonoaudiólogo fundador à frente da clínica desde 1998.
+            </p>
+            <p
+              className="mt-5 text-[16px] leading-[1.75] md:text-[17px]"
+              style={{ color: "var(--av-text)" }}
+            >
+              Reconhecido na Zona Leste, ele conduz a AudioVoz com uma visão clara: antes de indicar
+              qualquer solução, é preciso escutar a pessoa, entender sua necessidade e orientar com
+              responsabilidade.
+            </p>
+            <p
+              className="mt-5 text-[16px] leading-[1.75] md:text-[17px]"
+              style={{ color: "var(--av-text)" }}
+            >
+              É essa forma de atendimento — próxima, cuidadosa e sem pressa — que guia a AudioVoz na
+              Zona Leste desde que Jurandy abriu as portas em 1998.
+            </p>
+            <blockquote
+              className="mt-8 rounded-xl px-5 py-4"
+              style={{
+                backgroundColor: "rgba(224,90,26,0.07)",
+                borderLeft: "3px solid var(--av-accent)",
+              }}
+            >
+              <p
+                className="text-[15px] italic leading-[1.75]"
+                style={{ color: "var(--av-text-2)" }}
+              >
+                "Não vendemos produto. Oferecemos cuidado. A diferença aparece desde a primeira
+                conversa."
               </p>
-              <p className="text-[13px] text-white/80">AudioVoz desde 1998</p>
+            </blockquote>
+          </div>
+          <div
+            className="av-reveal order-1 lg:order-2"
+            style={{ "--d": "0.15s" } as React.CSSProperties}
+          >
+            <div
+              className="relative mx-auto w-full max-w-[440px] overflow-hidden rounded-2xl"
+              style={{
+                border: "1px solid rgba(15,31,57,0.08)",
+                aspectRatio: "4 / 5",
+                boxShadow: "0 20px 56px rgba(15,31,57,0.13), 0 4px 14px rgba(15,31,57,0.07)",
+              }}
+            >
+              <img
+                src="/images/10.jpg"
+                alt="Jurandy, fonoaudiólogo fundador da AudioVoz, na unidade de São Miguel Paulista"
+                className="h-full w-full object-cover"
+                loading="lazy"
+              />
+              <div
+                className="absolute bottom-0 left-0 right-0 px-5 py-5"
+                style={{
+                  background: "linear-gradient(to top, rgba(15,30,56,0.88) 0%, transparent 100%)",
+                }}
+              >
+                <p className="text-[14px] font-semibold text-white">
+                  Jurandy — Fonoaudiólogo fundador
+                </p>
+                <p className="text-[13px] text-white/75">AudioVoz desde 1998</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </Section>
+    </section>
   );
 }
 
@@ -650,76 +754,119 @@ function HowItWorks() {
   const steps = [
     {
       title: "Você entra em contato",
-      text:
-        "Mande uma mensagem pelo WhatsApp. Pode ser uma dúvida ou um pedido de agendamento do teste auditivo gratuito. A equipe responde e escuta o que você precisa.",
+      text: "Mande uma mensagem pelo WhatsApp. Pode ser uma dúvida ou um pedido de agendamento da avaliação auditiva gratuita. A equipe responde e escuta o que você precisa.",
     },
     {
-      title: "Você agenda seu teste e audiometria grátis",
-      text:
-        "Sem custo, sem compromisso com qualquer compra. A AudioVoz oferece teste e audiometria grátis para que você possa entender como está sua audição antes de qualquer decisão.",
+      title: "Você agenda sua avaliação auditiva gratuita",
+      text: "Sem custo, sem compromisso com qualquer compra. A AudioVoz oferece avaliação auditiva gratuita para que você possa entender como está sua audição antes de qualquer decisão.",
     },
     {
       title: "Você recebe orientação clara",
-      text:
-        "A equipe indica qual atendimento faz mais sentido para você ou para o familiar que precisa de cuidado — e tira todas as dúvidas antes de qualquer decisão.",
+      text: "A equipe indica qual atendimento faz mais sentido para você ou para o familiar que precisa de cuidado — e tira todas as dúvidas antes de qualquer decisão.",
     },
     {
-      title: "O atendimento acontece na unidade mais próxima de você",
-      text:
-        "São Miguel Paulista ou Guarulhos — você escolhe a unidade mais conveniente. O cuidado é o mesmo nas duas.",
+      title: "O atendimento acontece pertinho de você",
+      text: "Nossa unidade fica em São Miguel Paulista, com fácil acesso para toda a Zona Leste. A equipe confirma o horário pelo WhatsApp.",
     },
   ];
   return (
-    <Section className="py-14 md:py-20">
-      <div className="av-reveal mx-auto max-w-3xl text-center">
-        <H2>Simples, claro e no seu ritmo.</H2>
-        <p className="mt-4 text-[16px] leading-[1.65] md:text-[17px]" style={{ color: "var(--av-text-2)" }}>
-          Do primeiro contato até o atendimento — sem complicação e no ritmo que faz sentido pra você.
-        </p>
-      </div>
-      <ol className="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-        {steps.map((s, i) => (
-          <li key={s.title} className="av-reveal relative flex flex-col items-start lg:items-center lg:text-center"
-            style={{ '--d': `${i * 0.12}s` } as React.CSSProperties}>
-            <span
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full text-[16px] font-bold text-white shrink-0"
-              style={{ backgroundColor: "var(--av-primary)" }}
+    <section
+      className="relative overflow-hidden py-14 md:py-20"
+      style={{ background: "linear-gradient(180deg, #FAF8F4 0%, #F0EAE0 100%)" }}
+    >
+      {/* Thin accent line — topo */}
+      <div
+        aria-hidden
+        className="absolute left-0 right-0 top-0 h-[2px]"
+        style={{
+          background:
+            "linear-gradient(to right, transparent 0%, rgba(224,90,26,0.38) 25%, rgba(224,90,26,0.38) 75%, transparent 100%)",
+        }}
+      />
+      {/* Bloom central — iluminação suave no conteúdo */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse at 50% 38%, rgba(255,253,250,0.92) 0%, transparent 60%)",
+        }}
+      />
+      {/* Glow accent — bottom right sutil */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -bottom-32 -right-32 h-[440px] w-[440px] rounded-full opacity-[0.07]"
+        style={{ background: "radial-gradient(closest-side, #E05A1A, transparent 70%)" }}
+      />
+      {/* Glow navy — top left sutil */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -left-32 -top-32 h-[420px] w-[420px] rounded-full opacity-[0.06]"
+        style={{ background: "radial-gradient(closest-side, #1A2D5A, transparent 70%)" }}
+      />
+
+      <div className="relative mx-auto w-full max-w-[1200px] px-5 md:px-8">
+        <div className="av-reveal mx-auto max-w-3xl text-center">
+          <H2>Simples, claro e no seu ritmo</H2>
+          <p
+            className="mt-4 text-[16px] leading-[1.65] md:text-[17px]"
+            style={{ color: "var(--av-text-2)" }}
+          >
+            Do primeiro contato até o atendimento — sem complicação e no ritmo que faz sentido pra
+            você.
+          </p>
+        </div>
+        <ol className="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+          {steps.map((s, i) => (
+            <li
+              key={s.title}
+              className="av-reveal relative flex flex-col items-start lg:items-center lg:text-center"
+              style={{ "--d": `${i * 0.12}s` } as React.CSSProperties}
             >
-              {i + 1}
-            </span>
-            <h3 className="font-serif mt-4 text-[18px] font-semibold" style={{ color: "var(--av-text)" }}>
-              {s.title}
-            </h3>
-            <p className="mt-2 text-[15px] leading-[1.65]" style={{ color: "var(--av-text-2)" }}>
-              {s.text}
-            </p>
-            {i < steps.length - 1 && (
               <span
-                aria-hidden
-                className="absolute top-5 hidden h-px lg:block"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full text-[16px] font-bold text-white shrink-0"
                 style={{
-                  backgroundImage:
-                    "linear-gradient(to right, var(--av-border) 50%, transparent 50%)",
-                  backgroundSize: "8px 1px",
-                  backgroundRepeat: "repeat-x",
-                  left: "calc(50% + 28px)",
-                  right: "calc(-50% + 28px)",
-                  zIndex: 0,
+                  backgroundColor: "var(--av-primary)",
+                  boxShadow: "0 4px 16px rgba(26,45,90,0.22), 0 1px 4px rgba(26,45,90,0.12)",
                 }}
-              />
-            )}
-          </li>
-        ))}
-      </ol>
-      <div className="mt-12 flex flex-col items-center gap-3">
-        <WhatsAppButton href={WA_LINK}>
-          Agende sua audiometria grátis
-        </WhatsAppButton>
-        <p className="text-[13px]" style={{ color: "var(--av-text-2)" }}>
-          Fale pelo WhatsApp · São Miguel Paulista · Sem compromisso
-        </p>
+              >
+                {i + 1}
+              </span>
+              <h3
+                className="font-serif mt-4 text-[18px] font-semibold"
+                style={{ color: "var(--av-text)" }}
+              >
+                {s.title}
+              </h3>
+              <p className="mt-2 text-[15px] leading-[1.65]" style={{ color: "var(--av-text-2)" }}>
+                {s.text}
+              </p>
+              {i < steps.length - 1 && (
+                <span
+                  aria-hidden
+                  className="absolute top-5 hidden h-px lg:block"
+                  style={{
+                    backgroundImage:
+                      "linear-gradient(to right, rgba(26,45,90,0.15) 50%, transparent 50%)",
+                    backgroundSize: "8px 1px",
+                    backgroundRepeat: "repeat-x",
+                    left: "calc(50% + 28px)",
+                    right: "calc(-50% + 28px)",
+                    zIndex: 0,
+                  }}
+                />
+              )}
+            </li>
+          ))}
+        </ol>
+        <div className="mt-12 flex flex-col items-center gap-3">
+          <WhatsAppButton href={WA_LINK}>Agende sua avaliação auditiva</WhatsAppButton>
+          <p className="text-[13px]" style={{ color: "var(--av-text-2)" }}>
+            Fale pelo WhatsApp · na sua região · Sem compromisso
+          </p>
+        </div>
       </div>
-    </Section>
+    </section>
   );
 }
 
@@ -782,8 +929,8 @@ function Testimonials() {
     setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
   };
 
-  const scrollTo = (dir: 'left' | 'right') => {
-    scrollRef.current?.scrollBy({ left: dir === 'left' ? -288 : 288, behavior: 'smooth' });
+  const scrollTo = (dir: "left" | "right") => {
+    scrollRef.current?.scrollBy({ left: dir === "left" ? -288 : 288, behavior: "smooth" });
   };
 
   const onMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -792,7 +939,7 @@ function Testimonials() {
     isDragging.current = true;
     dragStartX.current = e.pageX - el.offsetLeft;
     dragScrollLeft.current = el.scrollLeft;
-    el.style.cursor = 'grabbing';
+    el.style.cursor = "grabbing";
   };
 
   const onMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -804,7 +951,7 @@ function Testimonials() {
 
   const stopDrag = () => {
     isDragging.current = false;
-    if (scrollRef.current) scrollRef.current.style.cursor = 'grab';
+    if (scrollRef.current) scrollRef.current.style.cursor = "grab";
   };
 
   return (
@@ -817,10 +964,22 @@ function Testimonials() {
         loading="lazy"
         className="absolute inset-0 h-full w-full object-cover object-center"
       />
-      {/* Overlay escuro */}
+      {/* Overlay principal */}
       <div
         className="absolute inset-0"
-        style={{ background: "linear-gradient(to bottom, rgba(10,20,45,0.86) 0%, rgba(26,45,90,0.80) 50%, rgba(10,20,45,0.90) 100%)" }}
+        style={{
+          background:
+            "linear-gradient(to bottom, rgba(6,12,26,0.94) 0%, rgba(14,26,54,0.82) 35%, rgba(18,32,62,0.78) 65%, rgba(6,12,26,0.95) 100%)",
+        }}
+      />
+      {/* Glow atmosférico — profundidade emocional */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-25"
+        style={{
+          background:
+            "radial-gradient(ellipse at 50% 35%, rgba(28,60,130,0.55) 0%, transparent 60%)",
+        }}
       />
 
       <div className="relative mx-auto w-full max-w-[1200px] px-5 md:px-8">
@@ -829,18 +988,36 @@ function Testimonials() {
           <h2 className="font-serif font-semibold text-[22px] leading-tight text-white md:text-[32px] lg:text-[36px]">
             O que dizem nossos pacientes
           </h2>
-          <div
-            className="mt-4 inline-flex items-center gap-3 rounded-full px-5 py-2.5"
-            style={{ backgroundColor: "rgba(255,255,255,0.10)", border: "1px solid rgba(255,255,255,0.18)" }}
-          >
-            <div className="flex gap-0.5">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <Star key={i} className="h-4 w-4 fill-current" style={{ color: "#fbbf24" }} />
-              ))}
-            </div>
-            <span className="text-[14px] font-medium text-white">
-              733 avaliações — <span style={{ color: "#fda869" }}>100% positivas</span>
-            </span>
+          <p className="mt-4 text-[16px] leading-[1.65] text-white/75 md:text-[17px]">
+            Mais de 730 famílias avaliaram a AudioVoz no Google — todas com nota máxima. Veja o que
+            elas dizem sobre o atendimento.
+          </p>
+          {/* Stats display — 3 números reais em destaque */}
+          <div className="mt-7 flex flex-wrap items-start justify-center gap-0">
+            {[
+              { value: "5.0", label: "nota Google", stars: true },
+              { value: "+730", label: "avaliações verificadas", stars: false },
+              { value: "+3.000", label: "pacientes atendidos", stars: false },
+            ].map((stat, i) => (
+              <div
+                key={stat.value}
+                className="flex flex-col items-center px-6 py-1 text-center"
+                style={i < 2 ? { borderRight: "1px solid rgba(255,255,255,0.18)" } : undefined}
+              >
+                <div className="mb-2 flex h-[22px] items-center justify-center gap-0.5">
+                  {stat.stars &&
+                    Array.from({ length: 5 }).map((_, j) => (
+                      <Star key={j} className="h-4 w-4 fill-current" style={{ color: "#fbbf24" }} />
+                    ))}
+                </div>
+                <span className="font-serif text-[44px] font-bold leading-none text-white md:text-[56px]">
+                  {stat.value}
+                </span>
+                <p className="mt-2 text-[11px] uppercase tracking-widest text-white/50">
+                  {stat.label}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -848,191 +1025,452 @@ function Testimonials() {
         <div className="mt-5 flex items-center justify-end gap-2">
           <button
             type="button"
-            onClick={() => scrollTo('left')}
+            onClick={() => scrollTo("left")}
             disabled={!canScrollLeft}
             aria-label="Anterior"
             className="inline-flex h-9 w-9 items-center justify-center rounded-full border transition-colors disabled:opacity-30"
-            style={{ borderColor: "rgba(255,255,255,0.28)", backgroundColor: "rgba(255,255,255,0.10)", color: "white" }}
+            style={{
+              borderColor: "rgba(255,255,255,0.28)",
+              backgroundColor: "rgba(255,255,255,0.10)",
+              color: "white",
+            }}
           >
             <ChevronLeft className="h-4 w-4" />
           </button>
           <button
             type="button"
-            onClick={() => scrollTo('right')}
+            onClick={() => scrollTo("right")}
             disabled={!canScrollRight}
             aria-label="Próximo"
             className="inline-flex h-9 w-9 items-center justify-center rounded-full border transition-colors disabled:opacity-30"
-            style={{ borderColor: "rgba(255,255,255,0.28)", backgroundColor: "rgba(255,255,255,0.10)", color: "white" }}
+            style={{
+              borderColor: "rgba(255,255,255,0.28)",
+              backgroundColor: "rgba(255,255,255,0.10)",
+              color: "white",
+            }}
           >
             <ChevronRight className="h-4 w-4" />
           </button>
         </div>
+      </div>
 
-        {/* Carousel */}
-        <div
-          ref={scrollRef}
-          onScroll={updateScrollState}
-          onMouseDown={onMouseDown}
-          onMouseMove={onMouseMove}
-          onMouseUp={stopDrag}
-          onMouseLeave={stopDrag}
-          className="av-reveal av-carousel -mx-5 mt-4 overflow-x-auto px-5 pb-3 md:-mx-8 md:px-8"
-          style={{ cursor: 'grab' }}
-        >
-          <div className="flex gap-4" style={{ width: "max-content" }}>
-            {TESTIMONIALS.map((t) => (
-              <div
-                key={t.name}
-                className="flex w-[272px] flex-col rounded-2xl p-5"
-                style={{ backgroundColor: "rgba(255,255,255,0.96)", border: "1px solid rgba(255,255,255,0.15)" }}
-              >
-                <div className="flex gap-0.5">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} className="h-3.5 w-3.5 fill-current" style={{ color: "#fbbf24" }} />
-                  ))}
-                </div>
-                <p className="mt-3 flex-1 text-[14px] leading-[1.65]" style={{ color: "var(--av-text)" }}>
-                  "{t.text}"
-                </p>
-                <div className="mt-4 border-t pt-3" style={{ borderColor: "var(--av-border)" }}>
-                  <p className="text-[13px] font-semibold" style={{ color: "var(--av-primary)" }}>{t.name}</p>
-                  <p className="text-[11px]" style={{ color: "var(--av-text-2)" }}>{t.context}</p>
-                </div>
+      {/* Carousel — fora do max-w para não ser cortado pelo overflow-hidden da section */}
+      <div
+        ref={scrollRef}
+        onScroll={updateScrollState}
+        onMouseDown={onMouseDown}
+        onMouseMove={onMouseMove}
+        onMouseUp={stopDrag}
+        onMouseLeave={stopDrag}
+        className="av-reveal av-carousel relative mt-4 w-full overflow-x-auto px-5 pb-3 md:px-8"
+        style={{ cursor: "grab" }}
+      >
+        <div className="flex gap-4" style={{ width: "max-content" }}>
+          {TESTIMONIALS.map((t) => (
+            <div
+              key={t.name}
+              className="flex w-[272px] flex-col rounded-2xl p-5"
+              style={{
+                backgroundColor: "rgba(255,255,255,0.96)",
+                border: "1px solid rgba(255,255,255,0.15)",
+              }}
+            >
+              <div className="flex gap-0.5">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star key={i} className="h-3.5 w-3.5 fill-current" style={{ color: "#fbbf24" }} />
+                ))}
               </div>
-            ))}
-          </div>
+              <p
+                className="mt-3 flex-1 text-[14px] leading-[1.65]"
+                style={{ color: "var(--av-text)" }}
+              >
+                "{t.text}"
+              </p>
+              <div className="mt-4 border-t pt-3" style={{ borderColor: "var(--av-border)" }}>
+                <p className="text-[13px] font-semibold" style={{ color: "var(--av-primary)" }}>
+                  {t.name}
+                </p>
+                <p className="text-[11px]" style={{ color: "var(--av-text-2)" }}>
+                  {t.context}
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
-    </section>
-  );
-}
 
-/* ---------------- LOCATION ---------------- */
-function Location() {
-  return (
-    <section id="localizacao" className="relative overflow-hidden py-14 md:py-20 text-white" style={{ backgroundColor: "var(--av-primary)" }}>
-      {/* Dot grid */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.04]" style={{ backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)", backgroundSize: "28px 28px" }} />
-      {/* Accent glow — bottom right */}
-      <div aria-hidden className="pointer-events-none absolute -bottom-40 -right-40 h-[560px] w-[560px] rounded-full opacity-20" style={{ background: "radial-gradient(closest-side, #E05A1A, transparent 70%)" }} />
-      {/* Light glow — top left */}
-      <div aria-hidden className="pointer-events-none absolute -left-28 -top-28 h-[400px] w-[400px] rounded-full opacity-10" style={{ background: "radial-gradient(closest-side, #4A90D9, transparent 70%)" }} />
-      <div className="relative mx-auto w-full max-w-[1200px] px-5 md:px-8">
-        <div className="av-reveal mx-auto max-w-3xl text-center">
-          <h2 className="font-serif text-[22px] font-semibold leading-tight md:text-[32px] lg:text-[36px]">
-            A AudioVoz está aqui, em São Miguel Paulista.
-          </h2>
-        </div>
-
-        <div className="mt-10 grid gap-6 lg:grid-cols-[1.6fr_1fr]">
-          {/* Main: São Miguel */}
-          <article
-            className="av-reveal rounded-2xl border p-6 md:p-8"
-            style={{ borderColor: "rgba(255,255,255,0.18)", backgroundColor: "rgba(255,255,255,0.05)" }}
-          >
-            <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-[13px] font-medium">
-              <MapPin className="h-3.5 w-3.5" /> Matriz
-            </span>
-            <h3 className="font-serif mt-3 text-[22px] font-semibold md:text-[26px]">
-              AudioVoz — São Miguel Paulista
-            </h3>
-            <p className="mt-3 text-[16px] text-white/90">
-              Av. Nordestina, Nº 210 - Vila Americana, São Paulo - SP, CEP: 08011-000
-            </p>
-            <div className="mt-3 grid gap-1 text-[15px] text-white/90">
-              <p className="flex items-center gap-2">
-                <WhatsAppIcon className="h-4 w-4" /> WhatsApp: (11) 95385-2353
-              </p>
-              <p className="flex items-center gap-2">
-                <Phone className="h-4 w-4" /> Telefone: (11) 2297-4323
-              </p>
-            </div>
-            <p className="mt-5 text-[15px] leading-[1.65] text-white/85">
-              A matriz da AudioVoz fica na Av. Nordestina, na Vila Americana — no coração de São Miguel Paulista.
-            </p>
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-              <a
-                href="https://maps.google.com/?q=Av.+Nordestina,+210+-+Vila+Americana,+São+Paulo+-+SP"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg border border-white/40 px-5 py-2.5 text-[15px] font-semibold text-white transition-colors hover:bg-white/10"
-              >
-                <MapPin className="h-4 w-4" /> Como chegar
-              </a>
-              <a
-                href={WA_LINK_VISIT}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg border border-white/40 px-5 py-2.5 text-[15px] font-semibold text-white transition-colors hover:bg-white/10"
-              >
-                <WhatsAppIcon className="h-4 w-4" /> Falar pelo WhatsApp
-              </a>
-            </div>
-          </article>
-
-          {/* Secondary: Guarulhos */}
-          <article
-            className="av-reveal rounded-2xl border p-6"
-            style={{ '--d': '0.12s', borderColor: "rgba(255,255,255,0.12)", backgroundColor: "rgba(255,255,255,0.03)" } as React.CSSProperties}
-          >
-            <p className="text-[13px] uppercase tracking-wide text-white/60">Também atendemos em</p>
-            <h3 className="font-serif mt-1 text-[20px] font-semibold">Guarulhos</h3>
-            <p className="mt-3 text-[15px] text-white/85">
-              Carrefour Vila Rios — Av. Benjamin Harris Hunicutt, S/N - Pinheiros, Guarulhos - SP
-            </p>
-            <p className="mt-3 flex items-center gap-2 text-[15px] text-white/90">
-              <WhatsAppIcon className="h-4 w-4" /> (11) 91761-4652
-            </p>
-          </article>
-        </div>
-
-        <p className="mt-10 text-center text-[14px] text-white/80">
-          Prefere falar antes de vir? Mande uma mensagem pelo WhatsApp — a equipe responde e orienta você.
+      {/* CTA integrado — pico emocional pós depoimentos */}
+      <div className="av-reveal relative mt-10 flex flex-col items-center gap-3 px-5 pb-2 text-center md:px-8">
+        <WhatsAppButton href={WA_LINK} className="md:min-w-[360px]">
+          Agende sua avaliação auditiva
+        </WhatsAppButton>
+        <p className="text-[13px] text-white/60">
+          Fale pelo WhatsApp · na sua região · Sem compromisso.
         </p>
       </div>
     </section>
   );
 }
 
+/* ---------------- MAP MODAL ---------------- */
+function MapModal({ onClose }: { onClose: () => void }) {
+  React.useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [onClose]);
+
+  return (
+    <>
+      {/* Backdrop */}
+      <div
+        className="av-backdrop-in fixed inset-0 z-50"
+        style={{
+          backgroundColor: "rgba(4,8,20,0.72)",
+          backdropFilter: "blur(6px)",
+          WebkitBackdropFilter: "blur(6px)",
+        }}
+        onClick={onClose}
+        aria-hidden
+      />
+
+      {/* Modal */}
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="Localização AudioVoz São Miguel Paulista"
+        className="av-modal-in fixed inset-x-3 top-[5vh] z-50 mx-auto flex max-h-[90vh] flex-col overflow-hidden rounded-2xl md:inset-x-auto md:left-1/2 md:top-1/2 md:w-full md:max-w-[660px] md:-translate-x-1/2 md:-translate-y-1/2"
+        style={{
+          background: "linear-gradient(165deg, #0D1F42 0%, #132648 45%, #0A1830 100%)",
+          boxShadow:
+            "0 32px 80px rgba(0,0,0,0.55), 0 8px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.09)",
+          border: "1px solid rgba(255,255,255,0.11)",
+        }}
+      >
+        {/* Header */}
+        <div
+          className="flex shrink-0 items-center justify-between px-5 py-4"
+          style={{ borderBottom: "1px solid rgba(255,255,255,0.10)" }}
+        >
+          <div className="flex items-center gap-2.5">
+            <MapPin className="h-4 w-4 shrink-0" style={{ color: "var(--av-accent)" }} />
+            <span className="text-[15px] font-semibold text-white">
+              AudioVoz — São Miguel Paulista
+            </span>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Fechar mapa"
+            className="inline-flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-white/10"
+            style={{ color: "rgba(255,255,255,0.60)" }}
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+
+        {/* Map iframe */}
+        <div className="relative h-[220px] shrink-0 md:h-[280px]">
+          <iframe
+            title="Localização AudioVoz São Miguel Paulista"
+            src="https://www.openstreetmap.org/export/embed.html?bbox=-46.450866%2C-23.500391%2C-46.434866%2C-23.490391&layer=mapnik&marker=-23.495391%2C-46.442866"
+            className="h-full w-full border-0"
+            loading="lazy"
+            allowFullScreen
+            referrerPolicy="no-referrer-when-downgrade"
+          />
+        </div>
+
+        {/* Info + actions */}
+        <div className="flex-1 overflow-y-auto px-5 py-5 md:px-6">
+          <div className="grid gap-4 sm:grid-cols-2">
+            {/* Endereço */}
+            <div className="flex gap-3">
+              <MapPin className="mt-0.5 h-4 w-4 shrink-0" style={{ color: "var(--av-accent)" }} />
+              <div>
+                <p className="text-[13px] font-semibold uppercase tracking-wide text-white/55">
+                  Endereço
+                </p>
+                <p className="mt-1 text-[14px] leading-[1.55] text-white/85">
+                  Av. Nordestina, Nº 210
+                  <br />
+                  Vila Americana — São Paulo, SP
+                  <br />
+                  CEP: 08011-000
+                </p>
+              </div>
+            </div>
+            {/* Contato */}
+            <div className="flex gap-3">
+              <Phone className="mt-0.5 h-4 w-4 shrink-0" style={{ color: "var(--av-accent)" }} />
+              <div>
+                <p className="text-[13px] font-semibold uppercase tracking-wide text-white/55">
+                  Contato
+                </p>
+                <p className="mt-1 text-[14px] leading-[1.65] text-white/85">
+                  WhatsApp: (11) 95385-2353
+                  <br />
+                  Telefone: (11) 2297-4323
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Buttons */}
+          <div className="mt-5">
+            <a
+              href={WA_LINK_VISIT}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex w-full min-h-[48px] items-center justify-center gap-2 rounded-lg text-[15px] font-semibold text-white transition-colors"
+              style={{ backgroundColor: "var(--av-accent)" }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.backgroundColor = "var(--av-accent-hover)")
+              }
+              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "var(--av-accent)")}
+            >
+              <WhatsAppIcon className="h-4 w-4" />
+              Falar pelo WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+/* ---------------- LOCATION ---------------- */
+function Location() {
+  const [mapOpen, setMapOpen] = React.useState(false);
+  return (
+    <>
+      <section
+        id="localizacao"
+        className="av-noise relative overflow-hidden py-16 md:py-24 text-white"
+        style={{
+          background: "linear-gradient(162deg, #0D1F42 0%, #152845 28%, #1B3260 62%, #090E22 100%)",
+        }}
+      >
+        {/* Dot grid */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 opacity-[0.055]"
+          style={{
+            backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)",
+            backgroundSize: "28px 28px",
+          }}
+        />
+        {/* Vinheta — profundidade nas bordas */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(4,8,20,0.58) 100%)",
+          }}
+        />
+        {/* Accent glow — bottom right */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -bottom-36 -right-36 h-[520px] w-[520px] rounded-full opacity-18"
+          style={{ background: "radial-gradient(closest-side, #E05A1A, transparent 70%)" }}
+        />
+        {/* Blue glow — top left */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -left-24 -top-24 h-[420px] w-[420px] rounded-full opacity-15"
+          style={{ background: "radial-gradient(closest-side, #2A5CB0, transparent 70%)" }}
+        />
+        {/* Petrol glow — bottom left */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -bottom-20 -left-20 h-[360px] w-[360px] rounded-full opacity-12"
+          style={{ background: "radial-gradient(closest-side, #1E5A8A, transparent 70%)" }}
+        />
+        <div className="relative mx-auto w-full max-w-[1200px] px-5 md:px-8">
+          <div className="av-reveal mx-auto max-w-3xl text-center">
+            <h2 className="font-serif text-[22px] font-semibold leading-tight md:text-[32px] lg:text-[36px]">
+              A AudioVoz está aqui, em São Miguel Paulista.
+            </h2>
+          </div>
+
+          <div className="mt-10 grid gap-6 lg:grid-cols-[1.6fr_1fr]">
+            {/* Main: São Miguel */}
+            <article
+              className="av-reveal av-glass rounded-2xl p-6 md:p-8"
+              style={{
+                backgroundColor: "rgba(255,255,255,0.07)",
+                border: "1px solid rgba(255,255,255,0.13)",
+                boxShadow: "0 8px 32px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.08)",
+              }}
+            >
+              <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-[13px] font-medium">
+                <MapPin className="h-3.5 w-3.5" /> Matriz
+              </span>
+              <h3 className="font-serif mt-3 text-[22px] font-semibold md:text-[26px]">
+                AudioVoz — São Miguel Paulista
+              </h3>
+              <p className="mt-3 text-[16px] text-white/90">
+                Av. Nordestina, Nº 210 - Vila Americana, São Paulo - SP, CEP: 08011-000
+              </p>
+              <div className="mt-3 grid gap-1 text-[15px] text-white/90">
+                <p className="flex items-center gap-2">
+                  <WhatsAppIcon className="h-4 w-4" /> WhatsApp: (11) 95385-2353
+                </p>
+                <p className="flex items-center gap-2">
+                  <Phone className="h-4 w-4" /> Telefone: (11) 2297-4323
+                </p>
+              </div>
+              <p className="mt-5 text-[15px] leading-[1.65] text-white/85">
+                A matriz da AudioVoz fica na Av. Nordestina, na Vila Americana — no coração de São
+                Miguel Paulista.
+              </p>
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                <button
+                  type="button"
+                  onClick={() => setMapOpen(true)}
+                  className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg border border-white/40 px-5 py-2.5 text-[15px] font-semibold text-white transition-colors hover:bg-white/10"
+                >
+                  <MapPin className="h-4 w-4" /> Como chegar
+                </button>
+                <a
+                  href={WA_LINK_VISIT}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg border border-white/40 px-5 py-2.5 text-[15px] font-semibold text-white transition-colors hover:bg-white/10"
+                >
+                  <WhatsAppIcon className="h-4 w-4" /> Falar pelo WhatsApp
+                </a>
+              </div>
+            </article>
+
+            {/* Secondary: Guarulhos */}
+            <article
+              className="av-reveal av-glass rounded-2xl p-6"
+              style={
+                {
+                  "--d": "0.12s",
+                  backgroundColor: "rgba(255,255,255,0.045)",
+                  border: "1px solid rgba(255,255,255,0.10)",
+                  boxShadow: "0 8px 32px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.07)",
+                } as React.CSSProperties
+              }
+            >
+              <p className="text-[13px] uppercase tracking-wide text-white/60">
+                Também atendemos em
+              </p>
+              <h3 className="font-serif mt-1 text-[20px] font-semibold">Guarulhos</h3>
+              <p className="mt-3 text-[15px] text-white/85">
+                Carrefour Vila Rios — Av. Benjamin Harris Hunicutt, S/N - Pinheiros, Guarulhos - SP
+              </p>
+              <p className="mt-3 flex items-center gap-2 text-[15px] text-white/90">
+                <WhatsAppIcon className="h-4 w-4" /> (11) 91761-4652
+              </p>
+            </article>
+          </div>
+
+          <p className="mt-10 text-center text-[14px] text-white/80">
+            Prefere falar antes de vir? Mande uma mensagem pelo WhatsApp — a equipe responde e
+            orienta você.
+          </p>
+        </div>
+      </section>
+      {mapOpen && <MapModal onClose={() => setMapOpen(false)} />}
+    </>
+  );
+}
+
 /* ---------------- FAQ ---------------- */
 function FAQ() {
   const items = [
-    ["A audiometria é gratuita?", "Sim. A AudioVoz oferece teste e audiometria grátis. Para confirmar disponibilidade de horário e unidade, fale com a equipe pelo WhatsApp e agende sua avaliação."],
-    ["Preciso agendar o teste auditivo gratuito?", "Sim, recomendamos entrar em contato pelo WhatsApp para combinar o melhor horário. A equipe te orienta sobre tudo que você precisa saber antes de vir."],
-    ["O teste gratuito está disponível nas duas unidades?", "Para confirmar a disponibilidade em cada unidade — São Miguel Paulista ou Guarulhos — fale com a equipe pelo WhatsApp. Eles te orientam sobre o melhor horário e local."],
-    ["Como saber se preciso de uma avaliação auditiva?", "Se você percebe que está pedindo para as pessoas repetirem com mais frequência, que o volume da televisão aumentou, ou que está com dificuldade em ambientes com barulho — esses podem ser sinais de que vale a pena conversar com um profissional. A equipe da AudioVoz pode orientar você sobre os próximos passos pelo WhatsApp."],
-    ["Vocês atendem crianças?", "Sim. A AudioVoz oferece atendimento para crianças com atenção às necessidades de cada faixa etária. Se você tem alguma preocupação com a audição ou a fala do seu filho, entre em contato pelo WhatsApp e a equipe orienta você sobre como funciona o atendimento."],
-    ["Vocês atendem pessoas autistas ou com necessidades específicas?", "A AudioVoz tem experiência com atendimento para pessoas com necessidades específicas. Cada caso é conduzido com cuidado, respeito e no ritmo de cada pessoa. Entre em contato pelo WhatsApp para que a equipe possa orientar sobre como funciona o atendimento para cada situação."],
-    ["Como funciona o primeiro contato?", "Muito simples. Mande uma mensagem pelo WhatsApp explicando o que você está buscando — pode ser uma dúvida, um pedido de orientação ou um agendamento. A equipe responde, entende sua necessidade e indica o próximo passo mais adequado para você."],
-    ["Vocês trabalham com aparelhos auditivos sob medida?", "Sim. A AudioVoz oferece aparelhos auditivos com adaptação individual, desenvolvidos com base na avaliação auditiva de cada pessoa. A indicação é feita com atenção ao perfil auditivo real — não ao produto padrão."],
-    ["Vocês atendem em São Miguel Paulista?", "Sim. Nossa unidade matriz em São Miguel Paulista fica na Av. Nordestina, Nº 210 - Vila Americana, São Paulo — estamos na região desde 1998. Mande uma mensagem pelo WhatsApp: (11) 95385-2353."],
-    ["Quanto custa o atendimento?", "O teste e a audiometria são grátis. Para os demais serviços — como fonoterapia, adaptação de aparelhos auditivos ou consultas específicas — os valores variam. Para aparelhos auditivos, a AudioVoz oferece parcelamento em até 12x sem juros. Entre em contato pelo WhatsApp e a equipe orienta você sobre as opções disponíveis."],
-    ["Os aparelhos têm garantia?", "Sim. Os aparelhos auditivos da AudioVoz têm garantia de 2 anos. Além disso, os ajustes são vitalícios — a equipe acompanha você durante todo o uso do aparelho, sem custo adicional para os ajustes."],
-    ["Vocês aceitam convênio?", "Para informações sobre convênios e formas de atendimento, entre em contato com a equipe pelo WhatsApp. A equipe pode te orientar sobre as opções disponíveis."],
-    ["Posso falar pelo WhatsApp antes de decidir qualquer coisa?", "Pode, e é exatamente assim que funciona. Não precisa ter tudo decidido antes de entrar em contato. A equipe está aqui para escutar e orientar você no ritmo que faz sentido para a sua situação."],
-    ["Há quanto tempo a AudioVoz atende na região?", "Desde 1998. São mais de 25 anos cuidando da saúde auditiva de famílias em São Miguel Paulista, na Zona Leste, e em Guarulhos. A trajetória da clínica é reconhecida no Google por quem foi atendido — e fez questão de recomendar."],
+    [
+      "Como saber se preciso de uma avaliação auditiva?",
+      "Se você percebe que está pedindo para as pessoas repetirem com mais frequência, que o volume da televisão aumentou, ou que está com dificuldade em ambientes com barulho — esses podem ser sinais de que vale a pena conversar com um profissional. A equipe da AudioVoz pode orientar você sobre os próximos passos pelo WhatsApp.",
+    ],
+    [
+      "Vocês atendem crianças?",
+      "Sim. A AudioVoz oferece atendimento para crianças com atenção às necessidades de cada faixa etária. Se você tem alguma preocupação com a audição ou a fala do seu filho, entre em contato pelo WhatsApp e a equipe orienta você sobre como funciona o atendimento.",
+    ],
+    [
+      "Vocês atendem pessoas autistas ou com necessidades específicas?",
+      "A AudioVoz tem experiência com atendimento para pessoas com necessidades específicas. Cada caso é conduzido com cuidado, respeito e no ritmo de cada pessoa. Entre em contato pelo WhatsApp para que a equipe possa orientar sobre como funciona o atendimento para cada situação.",
+    ],
+    [
+      "Vocês trabalham com aparelhos auditivos sob medida?",
+      "Sim. A AudioVoz oferece aparelhos auditivos com adaptação individual, desenvolvidos com base na avaliação auditiva de cada pessoa. A indicação é feita com atenção ao perfil auditivo real — não ao produto padrão.",
+    ],
+    [
+      "Quanto custa o atendimento?",
+      "A avaliação auditiva é gratuita. Para os demais serviços — como adaptação de aparelhos auditivos ou consultas específicas — os valores variam. Para aparelhos auditivos, a AudioVoz oferece parcelamento em até 12x sem juros. Entre em contato pelo WhatsApp e a equipe orienta você sobre as opções disponíveis.",
+    ],
+    [
+      "Os aparelhos têm garantia?",
+      "Sim. Os aparelhos auditivos da AudioVoz têm garantia de 2 anos. Além disso, os ajustes são vitalícios — a equipe acompanha você durante todo o uso do aparelho, sem custo adicional para os ajustes.",
+    ],
+    [
+      "Quanto tempo dura a bateria do aparelho auditivo?",
+      "Depende do modelo, do tempo de uso diário e dos recursos utilizados, como conectividade. Durante a avaliação, a equipe orienta a melhor opção para cada rotina.",
+    ],
+    [
+      "Quanto tempo dura um aparelho auditivo?",
+      "A vida útil média costuma ser em torno de 4 anos, variando conforme o cuidado, manuseio, tipo de perda auditiva e manutenção preventiva.",
+    ],
+    [
+      "É melhor aparelho com bateria ou recarregável?",
+      "Depende do perfil de uso. Quem utiliza bastante conectividade pode se beneficiar de modelos recarregáveis, mas a melhor escolha deve considerar a rotina e a necessidade auditiva de cada pessoa.",
+    ],
+    [
+      "De quanto em quanto tempo preciso fazer manutenção?",
+      "A recomendação geral é fazer manutenção preventiva a cada 4 meses para preservar o funcionamento e a qualidade do aparelho.",
+    ],
   ];
   return (
-    <Section id="faq" className="py-14 md:py-20">
-      <div className="av-reveal mx-auto max-w-3xl">
+    <Section
+      id="faq"
+      className="py-14 md:py-20"
+      style={{ background: "linear-gradient(180deg, #FBFAF7 0%, #FAF8F4 100%)" }}
+    >
+      <div className="av-reveal mx-auto max-w-[680px]">
         <H2 className="text-center">Perguntas frequentes</H2>
-        <Accordion type="single" collapsible className="mt-8 w-full">
-          {items.map(([q, a], idx) => (
-            <AccordionItem
-              key={q}
-              value={`item-${idx}`}
-              className="border-b"
-              style={{ borderColor: "var(--av-border)" } as React.CSSProperties}
-            >
-              <AccordionTrigger className="py-5 text-left font-sans text-[16px] font-semibold hover:no-underline md:text-[17px]" style={{ color: "var(--av-text)" }}>
-                {q}
-              </AccordionTrigger>
-              <AccordionContent className="pb-5 text-[16px] leading-[1.65]" style={{ color: "var(--av-text-2)" }}>
-                {a}
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
+        <div
+          className="mt-8 rounded-2xl px-5 py-2 md:px-10"
+          style={{
+            background: "#FFFFFF",
+            border: "1px solid rgba(15,31,57,0.07)",
+            boxShadow:
+              "0 2px 16px rgba(15,31,57,0.06), 0 1px 3px rgba(15,31,57,0.03), inset 0 1px 0 rgba(255,255,255,0.96)",
+          }}
+        >
+          <Accordion type="single" collapsible className="w-full">
+            {items.map(([q, a], idx) => (
+              <AccordionItem
+                key={q}
+                value={`item-${idx}`}
+                className="border-b last:border-b-0"
+                style={{ borderColor: "rgba(15,31,57,0.07)" } as React.CSSProperties}
+              >
+                <AccordionTrigger
+                  className="py-5 text-left font-sans text-[16px] font-semibold hover:no-underline md:text-[17px]"
+                  style={{ color: "var(--av-text)" }}
+                >
+                  {q}
+                </AccordionTrigger>
+                <AccordionContent
+                  className="pb-5 text-[16px] leading-[1.65]"
+                  style={{ color: "var(--av-text-2)" }}
+                >
+                  {a}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
       </div>
     </Section>
   );
@@ -1049,21 +1487,47 @@ function CtaFinal() {
         loading="lazy"
         className="absolute inset-0 h-full w-full object-cover object-center"
       />
-      <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(10,20,45,0.88) 0%, rgba(26,45,90,0.80) 50%, rgba(10,20,45,0.92) 100%)" }} />
-      <div className="av-reveal relative mx-auto max-w-3xl px-5 text-center md:px-8">
-        <h2 className="font-serif text-[28px] font-bold leading-tight md:text-[36px]">
-          Cuide da sua audição aqui em São Miguel Paulista.
+      {/* Overlay cinematográfico */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(to bottom, rgba(4,8,20,0.96) 0%, rgba(12,24,50,0.82) 40%, rgba(16,30,58,0.78) 60%, rgba(4,8,20,0.97) 100%)",
+        }}
+      />
+      {/* Glow azul atmosférico — topo */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-30"
+        style={{
+          background:
+            "radial-gradient(ellipse at 50% 0%, rgba(24,60,140,0.60) 0%, transparent 50%)",
+        }}
+      />
+      {/* Glow accent — próximo ao CTA */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-20"
+        style={{
+          background:
+            "radial-gradient(ellipse at 50% 75%, rgba(224,90,26,0.50) 0%, transparent 45%)",
+        }}
+      />
+      <div className="av-reveal relative mx-auto max-w-2xl px-5 text-center md:px-8">
+        <h2 className="font-serif text-[30px] font-bold leading-[1.2] md:text-[42px]">
+          Cuide da sua audição na Zona Leste.
         </h2>
-        <p className="mt-5 text-[17px] leading-[1.65] text-white/90">
-          A AudioVoz oferece teste e audiometria grátis. Agende pelo WhatsApp e venha entender como está sua audição — com orientação clara, acolhedora e sem custo para o teste.
+        <p className="mt-6 text-[17px] leading-[1.7] text-white/85 md:text-[18px]">
+          A AudioVoz oferece avaliação auditiva gratuita. Agende pelo WhatsApp e venha entender como
+          está sua audição — com orientação clara, acolhedora e sem custo.
         </p>
-        <div className="mt-8 flex justify-center">
+        <div className="mt-10 flex justify-center">
           <WhatsAppButton href={WA_LINK} large>
-            Agende sua audiometria grátis — São Miguel Paulista
+            Agende sua avaliação auditiva — São Miguel Paulista
           </WhatsAppButton>
         </div>
-        <p className="mt-4 text-[13px] text-white/75">
-          Estamos aqui, pertinho. Agende seu teste gratuito pelo WhatsApp.
+        <p className="mt-5 text-[13px] text-white/60">
+          Estamos aqui, pertinho. Agende pelo WhatsApp.
         </p>
       </div>
     </section>
@@ -1090,7 +1554,10 @@ function Footer() {
         </div>
         <div className="space-y-6 text-[14px]">
           <div>
-            <p className="text-[13px] font-semibold uppercase tracking-wide" style={{ color: "#A0AEC0" }}>
+            <p
+              className="text-[13px] font-semibold uppercase tracking-wide"
+              style={{ color: "#A0AEC0" }}
+            >
               São Miguel Paulista (Matriz)
             </p>
             <p className="mt-2 leading-[1.65]">
@@ -1100,17 +1567,24 @@ function Footer() {
             <p>Tel: (11) 2297-4323</p>
           </div>
           <div>
-            <p className="text-[13px] font-semibold uppercase tracking-wide" style={{ color: "#A0AEC0" }}>
+            <p
+              className="text-[13px] font-semibold uppercase tracking-wide"
+              style={{ color: "#A0AEC0" }}
+            >
               Guarulhos (Filial)
             </p>
             <p className="mt-2 leading-[1.65]">
-              Carrefour Vila Rios — Av. Benjamin Harris Hunicutt, S/N - Pinheiros, Guarulhos - SP, CEP: 07124-000
+              Carrefour Vila Rios — Av. Benjamin Harris Hunicutt, S/N - Pinheiros, Guarulhos - SP,
+              CEP: 07124-000
             </p>
             <p className="mt-1">WhatsApp: (11) 91761-4652</p>
           </div>
         </div>
         <div className="space-y-3 text-[14px]">
-          <p className="text-[13px] font-semibold uppercase tracking-wide" style={{ color: "#A0AEC0" }}>
+          <p
+            className="text-[13px] font-semibold uppercase tracking-wide"
+            style={{ color: "#A0AEC0" }}
+          >
             Contato
           </p>
           <p className="flex items-center gap-2">
@@ -1122,7 +1596,10 @@ function Footer() {
         </div>
       </div>
       <div className="border-t" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
-        <div className="mx-auto max-w-[1200px] px-5 py-5 text-center text-[13px] md:px-8" style={{ color: "#A0AEC0" }}>
+        <div
+          className="mx-auto max-w-[1200px] px-5 py-5 text-center text-[13px] md:px-8"
+          style={{ color: "#A0AEC0" }}
+        >
           © AudioVoz — Centro Auditivo | Desde 1998
         </div>
       </div>
@@ -1156,13 +1633,12 @@ function Index() {
       <Header />
       <main>
         <Hero />
-        <TrustBlock />
-        <CtaMid />
         <Audience />
-        <Services />
         <About />
-        <HowItWorks />
         <Testimonials />
+        <TrustBlock />
+        <Services />
+        <HowItWorks />
         <Location />
         <FAQ />
         <CtaFinal />
