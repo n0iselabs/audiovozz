@@ -28,6 +28,8 @@ import {
   Instagram,
   Menu,
   X,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -52,14 +54,16 @@ function WhatsAppIcon({ className = "h-5 w-5" }: { className?: string }) {
 function Section({
   id,
   className = "",
+  style,
   children,
 }: {
   id?: string;
   className?: string;
+  style?: React.CSSProperties;
   children: React.ReactNode;
 }) {
   return (
-    <section id={id} className={className}>
+    <section id={id} className={className} style={style}>
       <div className="mx-auto w-full max-w-[1200px] px-5 md:px-8">{children}</div>
     </section>
   );
@@ -95,14 +99,46 @@ function WhatsAppButton({
       className={`inline-flex min-h-[48px] items-center justify-center gap-2.5 rounded-lg font-semibold text-white transition-colors ${
         large ? "px-10 py-[18px] text-[17px]" : "px-8 py-4 text-[16px]"
       } ${className}`}
-      style={{ backgroundColor: "var(--av-wa)" }}
-      onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "var(--av-wa-hover)")}
-      onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "var(--av-wa)")}
+      style={{ backgroundColor: "var(--av-accent)" }}
+      onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "var(--av-accent-hover)")}
+      onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "var(--av-accent)")}
     >
       <WhatsAppIcon className="h-5 w-5" />
       <span>{children}</span>
     </a>
   );
+}
+
+function useRevealOnScroll() {
+  React.useEffect(() => {
+    let io: IntersectionObserver | undefined;
+    let raf1: number;
+    let raf2: number;
+
+    // Double-RAF: garante que o browser pintou o estado opacity:0
+    // antes do observer disparar — sem isso a CSS transition é ignorada
+    raf1 = requestAnimationFrame(() => {
+      raf2 = requestAnimationFrame(() => {
+        const els = document.querySelectorAll<Element>('.av-reveal');
+        io = new IntersectionObserver(
+          (entries) => entries.forEach(e => {
+            if (e.isIntersecting) {
+              e.target.classList.add('visible');
+              io!.unobserve(e.target);
+            }
+          }),
+          { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+        );
+        els.forEach(el => io!.observe(el));
+      });
+    });
+
+    return () => {
+      cancelAnimationFrame(raf1);
+      cancelAnimationFrame(raf2);
+      io?.disconnect();
+    };
+  }, []);
 }
 
 /* ---------------- HEADER ---------------- */
@@ -121,8 +157,18 @@ function Header() {
       style={{ borderColor: "var(--av-border)" }}
     >
       <div className="mx-auto flex h-16 max-w-[1200px] items-center justify-between px-5 md:h-[72px] md:px-8">
-        <a href="#top" className="font-serif text-[18px] font-bold md:text-[20px]" style={{ color: "var(--av-primary)" }}>
-          AudioVoz <span className="hidden font-normal sm:inline" style={{ color: "var(--av-text-2)" }}>— Centro Auditivo</span>
+        <a href="#top" className="flex items-center gap-2" aria-label="AudioVoz — Centro Auditivo">
+          <img
+            src="/images/logo-official.png"
+            alt="AudioVoz"
+            className="h-8 w-auto object-contain md:h-9"
+          />
+          <span
+            className="hidden text-[12px] font-medium uppercase tracking-wider sm:inline"
+            style={{ color: "var(--av-text-2)" }}
+          >
+            Centro Auditivo
+          </span>
         </a>
         <nav className="hidden lg:flex items-center gap-7">
           {navItems.map((i) => (
@@ -142,9 +188,9 @@ function Header() {
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex min-h-[44px] items-center gap-2 rounded-lg px-3 py-2 text-[14px] font-semibold text-white md:px-4 md:text-[15px]"
-            style={{ backgroundColor: "var(--av-wa)" }}
-            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "var(--av-wa-hover)")}
-            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "var(--av-wa)")}
+            style={{ backgroundColor: "var(--av-accent)" }}
+            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "var(--av-accent-hover)")}
+            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "var(--av-accent)")}
           >
             <WhatsAppIcon className="h-4 w-4" />
             <span className="hidden sm:inline">Fale pelo WhatsApp</span>
@@ -188,49 +234,87 @@ function Hero() {
     <section
       id="top"
       className="relative overflow-hidden text-white"
-      style={{
-        background:
-          "linear-gradient(135deg, #1A4A6E 0%, #1A4A6E 45%, #2a7080 75%, #3A9B8F 100%)",
-      }}
+      style={{ backgroundColor: "#0F1E38", minHeight: "580px" }}
     >
+      {/* ── Background foto — mobile only ── */}
+      <div aria-hidden className="absolute inset-0 lg:hidden">
+        <img src="/images/audiovoz-sm.jpg" alt="" className="h-full w-full object-cover object-center" />
+        <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(10,20,45,0.80) 0%, rgba(10,20,45,0.65) 45%, rgba(10,20,45,0.85) 100%)" }} />
+      </div>
+
+      {/* ── Foto editorial — desktop: sangra à direita, full-height ── */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -right-20 -top-20 h-[420px] w-[420px] rounded-full opacity-20"
-        style={{ background: "radial-gradient(closest-side, #ffffff, transparent 70%)" }}
+        className="av-load-scale absolute inset-y-0 right-0 hidden w-[50%] lg:block"
+        style={{ '--d': '0.18s' } as React.CSSProperties}
+      >
+        <img
+          src="/images/audiovoz-sm.jpg"
+          alt=""
+          className="h-full w-full object-cover object-center"
+        />
+        {/* Badge Google */}
+        <div className="absolute right-5 top-6 flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-[13px] font-medium backdrop-blur">
+          <Star className="h-3.5 w-3.5 shrink-0" style={{ color: "#ffd76b" }} />
+          <span>Nota 5 no Google · 733 avaliações</span>
+        </div>
+        {/* Quote card */}
+        <div className="absolute bottom-6 left-[15%] right-5">
+          <div
+            className="rounded-xl border border-white/15 p-5 backdrop-blur"
+            style={{ backgroundColor: "rgba(15,30,56,0.65)" }}
+          >
+            <p className="font-serif text-[18px] font-semibold leading-snug">
+              "Desde 1998, o atendimento começa pela escuta."
+            </p>
+            <p className="mt-2 text-[13px] text-white/80">
+              Jurandy — Fonoaudiólogo fundador · AudioVoz, São Miguel Paulista
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Luz sutil no canto superior esquerdo ── */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -left-24 -top-24 h-[400px] w-[400px] rounded-full opacity-10"
+        style={{ background: "radial-gradient(closest-side, #E05A1A, transparent 70%)" }}
       />
-      <div className="mx-auto grid w-full max-w-[1200px] grid-cols-1 gap-10 px-5 py-14 md:px-8 md:py-20 lg:grid-cols-[55%_45%] lg:gap-12 lg:py-24">
-        <div>
-          <p className="text-[14px] font-medium text-white/80">
+
+      {/* ── Conteúdo principal ── */}
+      <div className="relative mx-auto w-full max-w-[1200px] px-5 py-14 md:px-8 md:py-20 lg:py-24">
+        <div className="w-full max-w-[560px]">
+          <p className="av-load text-[14px] font-medium text-white/80">
             Clínica de saúde auditiva em São Miguel Paulista
           </p>
           <span
-            className="mt-3 inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-[13px] font-semibold text-white"
-            style={{ borderColor: "rgba(58,155,143,0.8)", backgroundColor: "rgba(58,155,143,0.18)" }}
+            className="av-load mt-3 inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-[13px] font-semibold text-white"
+            style={{ borderColor: "rgba(224,90,26,0.85)", backgroundColor: "rgba(224,90,26,0.28)", '--d': '0.1s' } as React.CSSProperties}
           >
-            <CheckCircle2 className="h-3.5 w-3.5" /> Teste e audiometria grátis
+            <CheckCircle2 className="h-3.5 w-3.5 shrink-0" /> Teste e audiometria grátis
           </span>
-          <h1 className="font-serif mt-5 text-[28px] font-bold leading-[1.15] md:text-[40px] lg:text-[48px]">
+          <h1 className="av-load font-serif mt-5 text-[28px] font-bold leading-[1.15] md:text-[40px] lg:text-[48px]"
+            style={{ '--d': '0.22s' } as React.CSSProperties}>
             Cuidado auditivo especializado aqui em São Miguel Paulista.
           </h1>
-          <p className="mt-5 text-[17px] leading-[1.6] text-white/90 md:text-[18px]">
+          <p className="av-load mt-5 text-[17px] leading-[1.6] text-white/90 md:text-[18px]"
+            style={{ '--d': '0.34s' } as React.CSSProperties}>
             A AudioVoz está no seu bairro. Atendimento fonoaudiológico, audiometria e aparelhos auditivos — de quem cuida da audição de famílias da Zona Leste desde 1998.
           </p>
-          <ul className="mt-6 grid gap-2.5">
+          <ul className="av-load mt-5 grid gap-2" style={{ '--d': '0.46s' } as React.CSSProperties}>
             {[
               "Clínica auditiva em São Miguel Paulista e Zona Leste",
-              "Desde 1998 — mais de 25 anos de experiência",
               "Teste e audiometria grátis",
               "Audiometria, fonoterapia e aparelhos auditivos",
               "Atendimento para adultos, idosos e crianças",
-              "Nota 5 no Google com 733 avaliações",
             ].map((t) => (
               <li key={t} className="flex items-start gap-2.5 text-[15px] font-medium text-white">
-                <CheckCircle2 className="mt-0.5 h-[18px] w-[18px] shrink-0" style={{ color: "#7be0d2" }} />
+                <CheckCircle2 className="mt-0.5 h-[18px] w-[18px] shrink-0" style={{ color: "rgba(255,255,255,0.9)" }} />
                 <span>{t}</span>
               </li>
             ))}
           </ul>
-          <div className="mt-7 flex flex-col items-start gap-3">
+          <div className="av-load mt-7 flex flex-col items-start gap-3" style={{ '--d': '0.58s' } as React.CSSProperties}>
             <WhatsAppButton href={WA_LINK} className="w-full md:w-auto">
               Agende sua audiometria grátis — São Miguel Paulista
             </WhatsAppButton>
@@ -243,34 +327,6 @@ function Hero() {
           </div>
         </div>
 
-        {/* Right visual block */}
-        <div className="relative hidden lg:block">
-          <div
-            className="relative h-full min-h-[420px] w-full overflow-hidden rounded-2xl border border-white/10"
-            style={{
-              background:
-                "radial-gradient(120% 80% at 80% 10%, rgba(123,224,210,0.25), transparent 60%), linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0) 60%)",
-            }}
-          >
-            <div className="absolute inset-0 flex flex-col justify-end p-8">
-              <div
-                className="rounded-xl border border-white/15 p-5 backdrop-blur"
-                style={{ backgroundColor: "rgba(18,49,74,0.55)" }}
-              >
-                <p className="font-serif text-[20px] font-semibold leading-snug">
-                  "Desde 1998, o atendimento começa pela escuta."
-                </p>
-                <p className="mt-2 text-[14px] text-white/80">
-                  AudioVoz — Centro Auditivo. São Miguel Paulista, Zona Leste.
-                </p>
-              </div>
-            </div>
-            <div className="absolute right-6 top-6 flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-[13px] font-medium backdrop-blur">
-              <Star className="h-3.5 w-3.5" style={{ color: "#ffd76b" }} />
-              Nota 5 no Google · 733 avaliações
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );
@@ -289,27 +345,32 @@ function TrustBlock() {
   ];
   return (
     <Section className="py-14 md:py-20">
-      <div className="mx-auto max-w-3xl text-center">
+      <div className="av-reveal mx-auto max-w-3xl text-center">
         <H2>Por que tantas famílias escolhem a AudioVoz?</H2>
         <p className="mt-5 text-[16px] leading-[1.65] md:text-[17px]" style={{ color: "var(--av-text-2)" }}>
           A AudioVoz acompanha a saúde auditiva de famílias de São Miguel Paulista e da Zona Leste desde 1998 — mais de 25 anos com fonoaudiólogo fundador à frente e atendimento que começa pela escuta. Reconhecida no Google por quem passou por aqui e fez questão de recomendar.
         </p>
       </div>
-      <ul className="mt-10 grid grid-cols-2 gap-x-6 gap-y-7 md:grid-cols-4 lg:grid-cols-7">
-        {items.map(({ icon: Icon, text }) => (
-          <li key={text} className="flex flex-col items-center text-center">
-            <span
-              className="inline-flex h-12 w-12 items-center justify-center rounded-full"
-              style={{ backgroundColor: "rgba(58,155,143,0.12)", color: "var(--av-accent)" }}
-            >
-              <Icon className="h-6 w-6" />
-            </span>
-            <p className="mt-3 text-[14px] font-semibold leading-snug" style={{ color: "var(--av-text)" }}>
-              {text}
-            </p>
-          </li>
-        ))}
-      </ul>
+      <div
+        className="mt-10 rounded-2xl py-10 px-6 md:px-10"
+        style={{ backgroundColor: "var(--av-card)", border: "1px solid var(--av-border)" }}
+      >
+        <ul className="grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-7">
+          {items.map(({ icon: Icon, text }, i) => (
+            <li key={text} className="av-reveal flex flex-col items-center text-center" style={{ '--d': `${i * 0.07}s` } as React.CSSProperties}>
+              <span
+                className="inline-flex h-12 w-12 items-center justify-center rounded-full"
+                style={{ backgroundColor: "rgba(224,90,26,0.10)", color: "var(--av-accent)" }}
+              >
+                <Icon className="h-6 w-6" />
+              </span>
+              <p className="mt-3 text-[13px] font-semibold leading-snug" style={{ color: "var(--av-text)" }}>
+                {text}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </div>
     </Section>
   );
 }
@@ -318,12 +379,12 @@ function TrustBlock() {
 function CtaMid() {
   return (
     <section className="py-8 md:py-12">
-      <div className="mx-auto flex max-w-[640px] flex-col items-center px-5 text-center">
-        <WhatsAppButton href={WA_LINK} className="w-full md:w-auto md:max-w-[480px]">
-          Agende sua audiometria grátis — é gratuita
+      <div className="av-reveal mx-auto flex max-w-[640px] flex-col items-center px-5 text-center">
+        <WhatsAppButton href={WA_LINK} className="w-full md:w-auto md:min-w-[360px]">
+          Agende sua audiometria grátis
         </WhatsAppButton>
         <p className="mt-3 text-[14px]" style={{ color: "var(--av-text-2)" }}>
-          Fale pelo WhatsApp. A equipe responde e orienta você sem compromisso.
+          Fale pelo WhatsApp · São Miguel Paulista · Sem compromisso.
         </p>
       </div>
     </section>
@@ -365,21 +426,39 @@ function Audience() {
     },
   ];
   return (
-    <Section id="para-quem" className="py-14 md:py-20">
-      <div className="mx-auto max-w-3xl text-center">
-        <H2>A AudioVoz atende quem precisa de atenção auditiva — em qualquer fase da vida.</H2>
+    <section id="para-quem" className="relative overflow-hidden py-14 md:py-20" style={{ backgroundColor: "var(--av-primary)" }}>
+      {/* Dot grid */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.04]" style={{ backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)", backgroundSize: "28px 28px" }} />
+      {/* Accent glow — top right */}
+      <div aria-hidden className="pointer-events-none absolute -right-32 -top-32 h-[500px] w-[500px] rounded-full opacity-15" style={{ background: "radial-gradient(closest-side, #E05A1A, transparent 70%)" }} />
+      {/* Light glow — bottom left */}
+      <div aria-hidden className="pointer-events-none absolute -bottom-24 -left-24 h-[380px] w-[380px] rounded-full opacity-10" style={{ background: "radial-gradient(closest-side, #4A90D9, transparent 70%)" }} />
+
+      <div className="relative mx-auto w-full max-w-[1200px] px-5 md:px-8">
+        <div className="av-reveal mx-auto max-w-3xl text-center">
+          <h2 className="font-serif font-semibold text-[22px] leading-tight text-white md:text-[32px] lg:text-[36px]">
+            A AudioVoz atende quem precisa de atenção auditiva — em qualquer fase da vida.
+          </h2>
+          <p className="mt-4 text-[16px] leading-[1.65] text-white/75 md:text-[17px]">
+            Adultos, idosos, crianças ou quem já usa aparelho auditivo. Cada atendimento começa pela escuta.
+          </p>
+        </div>
+        <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {cards.slice(0, 3).map((c, i) => (
+            <div key={c.title} className="av-reveal" style={{ '--d': `${i * 0.1}s` } as React.CSSProperties}>
+              <AudienceCard {...c} />
+            </div>
+          ))}
+        </div>
+        <div className="mt-5 grid gap-5 md:grid-cols-2 lg:mx-auto lg:max-w-[820px] lg:grid-cols-2">
+          {cards.slice(3).map((c, i) => (
+            <div key={c.title} className="av-reveal" style={{ '--d': `${i * 0.1}s` } as React.CSSProperties}>
+              <AudienceCard {...c} />
+            </div>
+          ))}
+        </div>
       </div>
-      <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-        {cards.slice(0, 3).map((c) => (
-          <AudienceCard key={c.title} {...c} />
-        ))}
-      </div>
-      <div className="mt-5 grid gap-5 md:grid-cols-2 lg:mx-auto lg:max-w-[820px] lg:grid-cols-2">
-        {cards.slice(3).map((c) => (
-          <AudienceCard key={c.title} {...c} />
-        ))}
-      </div>
-    </Section>
+    </section>
   );
 }
 
@@ -394,19 +473,19 @@ function AudienceCard({
 }) {
   return (
     <article
-      className="rounded-xl bg-white p-6 shadow-[0_1px_3px_rgba(26,74,110,0.06)] transition-shadow hover:shadow-[0_8px_24px_rgba(26,74,110,0.10)]"
-      style={{ border: "1px solid var(--av-border)" }}
+      className="rounded-xl p-6 transition-all duration-200 hover:-translate-y-0.5"
+      style={{ backgroundColor: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.12)", boxShadow: "0 4px 24px rgba(0,0,0,0.15)" }}
     >
       <span
         className="inline-flex h-12 w-12 items-center justify-center rounded-xl"
-        style={{ backgroundColor: "rgba(58,155,143,0.12)", color: "var(--av-accent)" }}
+        style={{ backgroundColor: "rgba(224,90,26,0.22)", color: "#fda869" }}
       >
         <Icon className="h-6 w-6" />
       </span>
-      <h3 className="font-serif mt-4 text-[20px] font-semibold" style={{ color: "var(--av-text)" }}>
+      <h3 className="font-serif mt-4 text-[20px] font-semibold text-white">
         {title}
       </h3>
-      <p className="mt-3 text-[16px] leading-[1.65]" style={{ color: "var(--av-text-2)" }}>
+      <p className="mt-3 text-[16px] leading-[1.65] text-white/70">
         {text}
       </p>
     </article>
@@ -448,21 +527,25 @@ function Services() {
     },
   ];
   return (
-    <Section id="servicos" className="py-14 md:py-20">
-      <div className="mx-auto max-w-3xl text-center">
+    <Section id="servicos" className="py-14 md:py-20" style={{ backgroundColor: "var(--av-card)" }}>
+      <div className="av-reveal mx-auto max-w-3xl text-center">
         <H2>O que oferecemos</H2>
         <p className="mt-4 text-[16px] md:text-[17px]" style={{ color: "var(--av-text-2)" }}>
           Serviços de saúde auditiva com orientação especializada em cada etapa.
         </p>
       </div>
       <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-        {cards.slice(0, 3).map((c) => (
-          <ServiceCard key={c.title} {...c} />
+        {cards.slice(0, 3).map((c, i) => (
+          <div key={c.title} className="av-reveal" style={{ '--d': `${i * 0.1}s` } as React.CSSProperties}>
+            <ServiceCard {...c} index={i} />
+          </div>
         ))}
       </div>
       <div className="mt-5 grid gap-5 md:grid-cols-2 lg:mx-auto lg:max-w-[820px] lg:grid-cols-2">
-        {cards.slice(3).map((c) => (
-          <ServiceCard key={c.title} {...c} />
+        {cards.slice(3).map((c, i) => (
+          <div key={c.title} className="av-reveal" style={{ '--d': `${i * 0.1}s` } as React.CSSProperties}>
+            <ServiceCard {...c} index={i + 3} />
+          </div>
         ))}
       </div>
     </Section>
@@ -473,21 +556,34 @@ function ServiceCard({
   icon: Icon,
   title,
   text,
+  index,
 }: {
   icon: React.ComponentType<{ className?: string }>;
   title: string;
   text: string;
+  index: number;
 }) {
   return (
     <article
-      className="rounded-xl p-6 transition-shadow hover:shadow-[0_8px_24px_rgba(26,74,110,0.08)]"
-      style={{ backgroundColor: "var(--av-bg)", border: "1px solid var(--av-border)" }}
+      className="relative overflow-hidden rounded-xl p-6 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_32px_rgba(26,74,110,0.12)]"
+      style={{
+        backgroundColor: "var(--av-bg)",
+        border: "1px solid var(--av-border)",
+        borderTop: "3px solid var(--av-accent)",
+      }}
     >
+      {/* Número decorativo */}
       <span
-        className="inline-flex h-12 w-12 items-center justify-center rounded-xl"
-        style={{ backgroundColor: "rgba(58,155,143,0.12)", color: "var(--av-accent)" }}
+        className="pointer-events-none absolute right-4 top-3 select-none font-mono text-[52px] font-bold leading-none"
+        style={{ color: "rgba(26,45,90,0.055)" }}
       >
-        <Icon className="h-6 w-6" />
+        {String(index + 1).padStart(2, '0')}
+      </span>
+      <span
+        className="inline-flex h-14 w-14 items-center justify-center rounded-xl"
+        style={{ backgroundColor: "rgba(224,90,26,0.10)", color: "var(--av-accent)" }}
+      >
+        <Icon className="h-7 w-7" />
       </span>
       <h3 className="font-serif mt-4 text-[20px] font-semibold" style={{ color: "var(--av-text)" }}>
         {title}
@@ -499,65 +595,49 @@ function ServiceCard({
   );
 }
 
-/* ---------------- ABOUT ---------------- */
+/* ---------------- ABOUT + JURANDY (fundidas) ---------------- */
 function About() {
   return (
     <Section id="sobre" className="py-14 md:py-20">
-      <div className="mx-auto max-w-3xl">
-        <H2>Quem somos</H2>
-        <p className="mt-5 text-[16px] leading-[1.7] md:text-[17px]" style={{ color: "var(--av-text)" }}>
-          A AudioVoz nasceu de um propósito simples: oferecer cuidado auditivo de verdade. Não somos uma loja de aparelhos. Somos uma clínica de saúde auditiva com equipe especializada, atendimento que começa pela escuta — e compromisso com cada pessoa que chega até nós.
-        </p>
-        <p className="mt-4 text-[16px] leading-[1.7] md:text-[17px]" style={{ color: "var(--av-text)" }}>
-          Desde 1998, atuamos em São Miguel Paulista, na Zona Leste de São Paulo, e em Guarulhos — duas regiões onde acompanhamos a saúde auditiva de famílias há mais de 25 anos. Aqui, o atendimento começa pela escuta. Só depois vem qualquer indicação.
-        </p>
-        <p
-          className="mt-6 border-l-2 pl-4 text-[15px] italic"
-          style={{ borderColor: "var(--av-accent)", color: "var(--av-text-2)" }}
-        >
-          Não vendemos produto. Oferecemos cuidado. A diferença aparece desde a primeira conversa.
-        </p>
-      </div>
-    </Section>
-  );
-}
-
-/* ---------------- JURANDY ---------------- */
-function Jurandy() {
-  return (
-    <Section className="py-14 md:py-20">
       <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[55%_45%] lg:gap-14">
-        <div className="order-2 lg:order-1">
-          <H2>A pessoa por trás da AudioVoz</H2>
+        <div className="av-reveal order-2 lg:order-1">
+          <H2 className="text-center lg:text-left">Quem somos</H2>
           <p className="mt-5 text-[16px] leading-[1.7] md:text-[17px]" style={{ color: "var(--av-text)" }}>
-            Jurandy é fonoaudiólogo fundador da AudioVoz e está à frente da clínica desde 1998 — mais de 25 anos dedicados ao cuidado com a saúde auditiva na Grande São Paulo.
+            A AudioVoz nasceu de um propósito simples: oferecer cuidado auditivo de verdade. Não somos uma loja de aparelhos — somos uma clínica de saúde auditiva. E por trás dessa visão está Jurandy, fonoaudiólogo fundador à frente da clínica desde 1998.
           </p>
           <p className="mt-4 text-[16px] leading-[1.7] md:text-[17px]" style={{ color: "var(--av-text)" }}>
-            Reconhecido na região da Zona Leste, ele conduz a AudioVoz com uma visão clara: antes de indicar qualquer solução, é preciso escutar a pessoa, entender sua necessidade e orientar com responsabilidade.
+            Reconhecido na Zona Leste, ele conduz a AudioVoz com uma visão clara: antes de indicar qualquer solução, é preciso escutar a pessoa, entender sua necessidade e orientar com responsabilidade.
           </p>
           <p className="mt-4 text-[16px] leading-[1.7] md:text-[17px]" style={{ color: "var(--av-text)" }}>
             É essa forma de atendimento — próxima, cuidadosa e sem pressa — que guia a AudioVoz em São Miguel Paulista e em Guarulhos.
           </p>
-        </div>
-        <div className="order-1 lg:order-2">
-          <div
-            className="relative mx-auto flex aspect-square w-full max-w-[420px] items-center justify-center overflow-hidden rounded-2xl"
-            style={{
-              background:
-                "linear-gradient(140deg, #1A4A6E 0%, #235e7f 55%, #3A9B8F 100%)",
-            }}
+          <p
+            className="mt-6 border-l-2 pl-4 text-[15px] italic"
+            style={{ borderColor: "var(--av-accent)", color: "var(--av-text-2)" }}
           >
-            <div
-              aria-hidden
-              className="absolute -right-12 -top-12 h-56 w-56 rounded-full"
-              style={{ background: "radial-gradient(closest-side, rgba(255,255,255,0.18), transparent 70%)" }}
+            Não vendemos produto. Oferecemos cuidado. A diferença aparece desde a primeira conversa.
+          </p>
+        </div>
+        <div className="av-reveal order-1 lg:order-2" style={{ '--d': '0.15s' } as React.CSSProperties}>
+          <div
+            className="relative mx-auto w-full max-w-[420px] overflow-hidden rounded-2xl shadow-xl"
+            style={{ border: "3px solid var(--av-border)", aspectRatio: "1 / 1" }}
+          >
+            <img
+              src="/images/jurandy-foto.png"
+              alt="Jurandy, fonoaudiólogo fundador da AudioVoz, na unidade de São Miguel Paulista"
+              className="h-full w-full object-cover"
+              loading="lazy"
             />
-            <div className="flex h-44 w-44 items-center justify-center rounded-full border-2 border-white/30 bg-white/10 backdrop-blur-sm md:h-52 md:w-52">
-              <span className="font-serif text-[64px] font-bold text-white md:text-[72px]">JA</span>
+            <div
+              className="absolute bottom-0 left-0 right-0 px-4 py-4"
+              style={{ background: "linear-gradient(to top, rgba(15,30,56,0.85) 0%, transparent 100%)" }}
+            >
+              <p className="text-[14px] font-semibold text-white">
+                Jurandy — Fonoaudiólogo fundador
+              </p>
+              <p className="text-[13px] text-white/80">AudioVoz desde 1998</p>
             </div>
-            <p className="absolute bottom-5 left-0 right-0 text-center text-[14px] font-medium text-white/85">
-              Jurandy — Fonoaudiólogo fundador
-            </p>
           </div>
         </div>
       </div>
@@ -569,25 +649,21 @@ function Jurandy() {
 function HowItWorks() {
   const steps = [
     {
-      icon: MessageCircle,
       title: "Você entra em contato",
       text:
         "Mande uma mensagem pelo WhatsApp. Pode ser uma dúvida ou um pedido de agendamento do teste auditivo gratuito. A equipe responde e escuta o que você precisa.",
     },
     {
-      icon: Ear,
       title: "Você agenda seu teste e audiometria grátis",
       text:
         "Sem custo, sem compromisso com qualquer compra. A AudioVoz oferece teste e audiometria grátis para que você possa entender como está sua audição antes de qualquer decisão.",
     },
     {
-      icon: Users,
       title: "Você recebe orientação clara",
       text:
         "A equipe indica qual atendimento faz mais sentido para você ou para o familiar que precisa de cuidado — e tira todas as dúvidas antes de qualquer decisão.",
     },
     {
-      icon: MapPin,
       title: "O atendimento acontece na unidade mais próxima de você",
       text:
         "São Miguel Paulista ou Guarulhos — você escolhe a unidade mais conveniente. O cuidado é o mesmo nas duas.",
@@ -595,26 +671,22 @@ function HowItWorks() {
   ];
   return (
     <Section className="py-14 md:py-20">
-      <div className="mx-auto max-w-3xl text-center">
+      <div className="av-reveal mx-auto max-w-3xl text-center">
         <H2>Simples, claro e no seu ritmo.</H2>
+        <p className="mt-4 text-[16px] leading-[1.65] md:text-[17px]" style={{ color: "var(--av-text-2)" }}>
+          Do primeiro contato até o atendimento — sem complicação e no ritmo que faz sentido pra você.
+        </p>
       </div>
       <ol className="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
         {steps.map((s, i) => (
-          <li key={s.title} className="relative flex flex-col items-start lg:items-center lg:text-center">
-            <div className="flex items-center gap-3 lg:flex-col lg:gap-2">
-              <span
-                className="inline-flex h-11 w-11 items-center justify-center rounded-full text-[16px] font-bold text-white"
-                style={{ backgroundColor: "var(--av-primary)" }}
-              >
-                {i + 1}
-              </span>
-              <span
-                className="inline-flex h-10 w-10 items-center justify-center rounded-lg"
-                style={{ backgroundColor: "rgba(58,155,143,0.12)", color: "var(--av-accent)" }}
-              >
-                <s.icon className="h-5 w-5" />
-              </span>
-            </div>
+          <li key={s.title} className="av-reveal relative flex flex-col items-start lg:items-center lg:text-center"
+            style={{ '--d': `${i * 0.12}s` } as React.CSSProperties}>
+            <span
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full text-[16px] font-bold text-white shrink-0"
+              style={{ backgroundColor: "var(--av-primary)" }}
+            >
+              {i + 1}
+            </span>
             <h3 className="font-serif mt-4 text-[18px] font-semibold" style={{ color: "var(--av-text)" }}>
               {s.title}
             </h3>
@@ -624,31 +696,229 @@ function HowItWorks() {
             {i < steps.length - 1 && (
               <span
                 aria-hidden
-                className="absolute right-0 top-5 hidden h-px w-full -translate-y-1/2 lg:block"
+                className="absolute top-5 hidden h-px lg:block"
                 style={{
                   backgroundImage:
                     "linear-gradient(to right, var(--av-border) 50%, transparent 50%)",
                   backgroundSize: "8px 1px",
                   backgroundRepeat: "repeat-x",
-                  left: "60%",
-                  width: "80%",
-                  zIndex: -1,
+                  left: "calc(50% + 28px)",
+                  right: "calc(-50% + 28px)",
+                  zIndex: 0,
                 }}
               />
             )}
           </li>
         ))}
       </ol>
+      <div className="mt-12 flex flex-col items-center gap-3">
+        <WhatsAppButton href={WA_LINK}>
+          Agende sua audiometria grátis
+        </WhatsAppButton>
+        <p className="text-[13px]" style={{ color: "var(--av-text-2)" }}>
+          Fale pelo WhatsApp · São Miguel Paulista · Sem compromisso
+        </p>
+      </div>
     </Section>
+  );
+}
+
+/* ---------------- TESTIMONIALS ---------------- */
+const TESTIMONIALS = [
+  {
+    name: "Celia Alves",
+    context: "Filha de paciente",
+    text: "Fomos muito bem acolhidos... Trataram meu pai com empatia. É muito bom ver o sorriso no rosto do meu pai, que voltou a ouvir e agora pode interagir com todos a sua volta.",
+  },
+  {
+    name: "Rosely Lima",
+    context: "Filha de paciente — 85 anos",
+    text: "Venho agradecer pelo atendimento excelente. Foi muito gratificante ao presenciar a minha mãe ouvindo tudo — ela reviveu com 85 anos tendo aparelho auditivo. Ela disse que agora está vivendo.",
+  },
+  {
+    name: "Lea Belo",
+    context: "Cliente fiel",
+    text: "Já é o segundo aparelho que compro pra minha mãe na AudioVoz com o Jurandir. Um profissional competente, ético e acima de tudo humano. Não tem outro lugar — pode confiar, é sem dúvidas um profissional escasso no mercado.",
+  },
+  {
+    name: "Roberto Beserra da Silva",
+    context: "Primeiro aparelho auditivo",
+    text: "O que me fez escolher a AudioVoz foi o atendimento humanizado do Jurandy. Ele explicou em detalhes o aparelho ideal para meu caso e avaliou a questão financeira. Ele não me viu somente como um cliente na questão de fechar a venda.",
+  },
+  {
+    name: "Valéria Hosana",
+    context: "Filha de paciente",
+    text: "O Jurandir consegue captar a necessidade do paciente de forma que nos traz segurança em estar neste lugar, num momento não tão fácil. Obrigada AudioVoz, por proporcionar ao meu pai a capacidade de ouvir melhor.",
+  },
+  {
+    name: "Neusa",
+    context: "2º aparelho auditivo",
+    text: "A AudioVoz me devolveu o prazer de ouvir os sons da vida. Adquiri o segundo aparelho auditivo — só tenho a agradecer ao Jurandy e sua equipe pelo excelente atendimento. Muito obrigada!",
+  },
+  {
+    name: "Josiane",
+    context: "Filha de paciente",
+    text: "Atendimento humanizado. O Dr. Jurandir foi muito atencioso com as necessidades da minha mãe — conversamos muito, não nos deixou sair de lá com nenhuma dúvida. Muito grata pelo atendimento de vocês!",
+  },
+  {
+    name: "Lenira Silva",
+    context: "Cliente há mais de 30 anos",
+    text: "Sempre fomos muito bem atendidos. Meu esposo já comprou 2 aparelhos. Conhecemos eles há mais de 30 anos — sempre atenciosos.",
+  },
+];
+
+function Testimonials() {
+  const scrollRef = React.useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = React.useState(false);
+  const [canScrollRight, setCanScrollRight] = React.useState(true);
+  const isDragging = React.useRef(false);
+  const dragStartX = React.useRef(0);
+  const dragScrollLeft = React.useRef(0);
+
+  const updateScrollState = () => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 4);
+    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
+  };
+
+  const scrollTo = (dir: 'left' | 'right') => {
+    scrollRef.current?.scrollBy({ left: dir === 'left' ? -288 : 288, behavior: 'smooth' });
+  };
+
+  const onMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    const el = scrollRef.current;
+    if (!el) return;
+    isDragging.current = true;
+    dragStartX.current = e.pageX - el.offsetLeft;
+    dragScrollLeft.current = el.scrollLeft;
+    el.style.cursor = 'grabbing';
+  };
+
+  const onMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!isDragging.current || !scrollRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - scrollRef.current.offsetLeft;
+    scrollRef.current.scrollLeft = dragScrollLeft.current - (x - dragStartX.current) * 1.2;
+  };
+
+  const stopDrag = () => {
+    isDragging.current = false;
+    if (scrollRef.current) scrollRef.current.style.cursor = 'grab';
+  };
+
+  return (
+    <section id="depoimentos" className="relative overflow-hidden py-14 md:py-20">
+      {/* Background image */}
+      <img
+        src="/images/clientes-audiovoz-fotos.jpg"
+        alt=""
+        aria-hidden
+        loading="lazy"
+        className="absolute inset-0 h-full w-full object-cover object-center"
+      />
+      {/* Overlay escuro */}
+      <div
+        className="absolute inset-0"
+        style={{ background: "linear-gradient(to bottom, rgba(10,20,45,0.86) 0%, rgba(26,45,90,0.80) 50%, rgba(10,20,45,0.90) 100%)" }}
+      />
+
+      <div className="relative mx-auto w-full max-w-[1200px] px-5 md:px-8">
+        {/* Header */}
+        <div className="av-reveal mx-auto max-w-3xl text-center">
+          <h2 className="font-serif font-semibold text-[22px] leading-tight text-white md:text-[32px] lg:text-[36px]">
+            O que dizem nossos pacientes
+          </h2>
+          <div
+            className="mt-4 inline-flex items-center gap-3 rounded-full px-5 py-2.5"
+            style={{ backgroundColor: "rgba(255,255,255,0.10)", border: "1px solid rgba(255,255,255,0.18)" }}
+          >
+            <div className="flex gap-0.5">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Star key={i} className="h-4 w-4 fill-current" style={{ color: "#fbbf24" }} />
+              ))}
+            </div>
+            <span className="text-[14px] font-medium text-white">
+              733 avaliações — <span style={{ color: "#fda869" }}>100% positivas</span>
+            </span>
+          </div>
+        </div>
+
+        {/* Nav buttons */}
+        <div className="mt-5 flex items-center justify-end gap-2">
+          <button
+            type="button"
+            onClick={() => scrollTo('left')}
+            disabled={!canScrollLeft}
+            aria-label="Anterior"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-full border transition-colors disabled:opacity-30"
+            style={{ borderColor: "rgba(255,255,255,0.28)", backgroundColor: "rgba(255,255,255,0.10)", color: "white" }}
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </button>
+          <button
+            type="button"
+            onClick={() => scrollTo('right')}
+            disabled={!canScrollRight}
+            aria-label="Próximo"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-full border transition-colors disabled:opacity-30"
+            style={{ borderColor: "rgba(255,255,255,0.28)", backgroundColor: "rgba(255,255,255,0.10)", color: "white" }}
+          >
+            <ChevronRight className="h-4 w-4" />
+          </button>
+        </div>
+
+        {/* Carousel */}
+        <div
+          ref={scrollRef}
+          onScroll={updateScrollState}
+          onMouseDown={onMouseDown}
+          onMouseMove={onMouseMove}
+          onMouseUp={stopDrag}
+          onMouseLeave={stopDrag}
+          className="av-reveal av-carousel -mx-5 mt-4 overflow-x-auto px-5 pb-3 md:-mx-8 md:px-8"
+          style={{ cursor: 'grab' }}
+        >
+          <div className="flex gap-4" style={{ width: "max-content" }}>
+            {TESTIMONIALS.map((t) => (
+              <div
+                key={t.name}
+                className="flex w-[272px] flex-col rounded-2xl p-5"
+                style={{ backgroundColor: "rgba(255,255,255,0.96)", border: "1px solid rgba(255,255,255,0.15)" }}
+              >
+                <div className="flex gap-0.5">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star key={i} className="h-3.5 w-3.5 fill-current" style={{ color: "#fbbf24" }} />
+                  ))}
+                </div>
+                <p className="mt-3 flex-1 text-[14px] leading-[1.65]" style={{ color: "var(--av-text)" }}>
+                  "{t.text}"
+                </p>
+                <div className="mt-4 border-t pt-3" style={{ borderColor: "var(--av-border)" }}>
+                  <p className="text-[13px] font-semibold" style={{ color: "var(--av-primary)" }}>{t.name}</p>
+                  <p className="text-[11px]" style={{ color: "var(--av-text-2)" }}>{t.context}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 
 /* ---------------- LOCATION ---------------- */
 function Location() {
   return (
-    <section id="localizacao" className="py-14 md:py-20 text-white" style={{ backgroundColor: "var(--av-primary)" }}>
-      <div className="mx-auto w-full max-w-[1200px] px-5 md:px-8">
-        <div className="mx-auto max-w-3xl text-center">
+    <section id="localizacao" className="relative overflow-hidden py-14 md:py-20 text-white" style={{ backgroundColor: "var(--av-primary)" }}>
+      {/* Dot grid */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.04]" style={{ backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)", backgroundSize: "28px 28px" }} />
+      {/* Accent glow — bottom right */}
+      <div aria-hidden className="pointer-events-none absolute -bottom-40 -right-40 h-[560px] w-[560px] rounded-full opacity-20" style={{ background: "radial-gradient(closest-side, #E05A1A, transparent 70%)" }} />
+      {/* Light glow — top left */}
+      <div aria-hidden className="pointer-events-none absolute -left-28 -top-28 h-[400px] w-[400px] rounded-full opacity-10" style={{ background: "radial-gradient(closest-side, #4A90D9, transparent 70%)" }} />
+      <div className="relative mx-auto w-full max-w-[1200px] px-5 md:px-8">
+        <div className="av-reveal mx-auto max-w-3xl text-center">
           <h2 className="font-serif text-[22px] font-semibold leading-tight md:text-[32px] lg:text-[36px]">
             A AudioVoz está aqui, em São Miguel Paulista.
           </h2>
@@ -657,7 +927,7 @@ function Location() {
         <div className="mt-10 grid gap-6 lg:grid-cols-[1.6fr_1fr]">
           {/* Main: São Miguel */}
           <article
-            className="rounded-2xl border p-6 md:p-8"
+            className="av-reveal rounded-2xl border p-6 md:p-8"
             style={{ borderColor: "rgba(255,255,255,0.18)", backgroundColor: "rgba(255,255,255,0.05)" }}
           >
             <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-[13px] font-medium">
@@ -678,12 +948,13 @@ function Location() {
               </p>
             </div>
             <p className="mt-5 text-[15px] leading-[1.65] text-white/85">
-              A matriz da AudioVoz fica na Av. Nordestina, na Vila Americana — atendendo famílias da região de São Miguel Paulista e Zona Leste desde 1998.
+              A matriz da AudioVoz fica na Av. Nordestina, na Vila Americana — no coração de São Miguel Paulista.
             </p>
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
               <a
-                href="#"
-                onClick={(e) => e.preventDefault()}
+                href="https://maps.google.com/?q=Av.+Nordestina,+210+-+Vila+Americana,+São+Paulo+-+SP"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg border border-white/40 px-5 py-2.5 text-[15px] font-semibold text-white transition-colors hover:bg-white/10"
               >
                 <MapPin className="h-4 w-4" /> Como chegar
@@ -701,8 +972,8 @@ function Location() {
 
           {/* Secondary: Guarulhos */}
           <article
-            className="rounded-2xl border p-6"
-            style={{ borderColor: "rgba(255,255,255,0.12)", backgroundColor: "rgba(255,255,255,0.03)" }}
+            className="av-reveal rounded-2xl border p-6"
+            style={{ '--d': '0.12s', borderColor: "rgba(255,255,255,0.12)", backgroundColor: "rgba(255,255,255,0.03)" } as React.CSSProperties}
           >
             <p className="text-[13px] uppercase tracking-wide text-white/60">Também atendemos em</p>
             <h3 className="font-serif mt-1 text-[20px] font-semibold">Guarulhos</h3>
@@ -743,7 +1014,7 @@ function FAQ() {
   ];
   return (
     <Section id="faq" className="py-14 md:py-20">
-      <div className="mx-auto max-w-3xl">
+      <div className="av-reveal mx-auto max-w-3xl">
         <H2 className="text-center">Perguntas frequentes</H2>
         <Accordion type="single" collapsible className="mt-8 w-full">
           {items.map(([q, a], idx) => (
@@ -770,8 +1041,16 @@ function FAQ() {
 /* ---------------- CTA FINAL ---------------- */
 function CtaFinal() {
   return (
-    <section className="py-16 text-white md:py-24" style={{ backgroundColor: "var(--av-primary)" }}>
-      <div className="mx-auto max-w-3xl px-5 text-center md:px-8">
+    <section className="relative overflow-hidden py-16 text-white md:py-24">
+      <img
+        src="/images/frente-audiovoz.jpg"
+        alt=""
+        aria-hidden
+        loading="lazy"
+        className="absolute inset-0 h-full w-full object-cover object-center"
+      />
+      <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(10,20,45,0.88) 0%, rgba(26,45,90,0.80) 50%, rgba(10,20,45,0.92) 100%)" }} />
+      <div className="av-reveal relative mx-auto max-w-3xl px-5 text-center md:px-8">
         <h2 className="font-serif text-[28px] font-bold leading-tight md:text-[36px]">
           Cuide da sua audição aqui em São Miguel Paulista.
         </h2>
@@ -797,7 +1076,14 @@ function Footer() {
     <footer className="text-white" style={{ backgroundColor: "var(--av-footer)" }}>
       <div className="mx-auto grid w-full max-w-[1200px] gap-10 px-5 py-14 md:px-8 md:py-16 lg:grid-cols-3">
         <div>
-          <p className="font-serif text-[22px] font-bold">AudioVoz</p>
+          <a href="#top" aria-label="AudioVoz — Centro Auditivo">
+            <img
+              src="/images/logo-official.png"
+              alt="AudioVoz"
+              className="h-10 w-auto object-contain md:h-12"
+              loading="lazy"
+            />
+          </a>
           <p className="mt-3 text-[14px] leading-[1.65]" style={{ color: "#A0AEC0" }}>
             Cuidando da audição de famílias desde 1998.
           </p>
@@ -821,7 +1107,6 @@ function Footer() {
               Carrefour Vila Rios — Av. Benjamin Harris Hunicutt, S/N - Pinheiros, Guarulhos - SP, CEP: 07124-000
             </p>
             <p className="mt-1">WhatsApp: (11) 91761-4652</p>
-            <p>Tel: (11) 2297-4323</p>
           </div>
         </div>
         <div className="space-y-3 text-[14px]">
@@ -865,6 +1150,7 @@ function FloatingWhatsApp() {
 }
 
 function Index() {
+  useRevealOnScroll();
   return (
     <div className="min-h-screen" style={{ backgroundColor: "var(--av-bg)" }}>
       <Header />
@@ -875,8 +1161,8 @@ function Index() {
         <Audience />
         <Services />
         <About />
-        <Jurandy />
         <HowItWorks />
+        <Testimonials />
         <Location />
         <FAQ />
         <CtaFinal />

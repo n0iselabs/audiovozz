@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap');
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
@@ -146,15 +147,17 @@
 /* AudioVoz brand tokens */
 :root {
   --av-bg: #F8F6F2;
-  --av-primary: #1A4A6E;
-  --av-accent: #3A9B8F;
-  --av-text: #2C3E50;
-  --av-text-2: #6B7280;
+  --av-primary: #1A2D5A;
+  --av-primary-light: #1A4A6E;
+  --av-accent: #E05A1A;
+  --av-accent-hover: #C44E14;
+  --av-text: #1E2A3A;
+  --av-text-2: #5A6878;
   --av-wa: #25D366;
   --av-wa-hover: #1DA851;
   --av-border: #E8E4DC;
   --av-card: #FFFFFF;
-  --av-footer: #12314A;
+  --av-footer: #0F1E38;
 }
 
 html, body {
@@ -186,3 +189,75 @@ html, body {
 }
 [data-state="open"] > .av-acc-content { animation: av-accordion-down 200ms ease-out; }
 [data-state="closed"] > .av-acc-content { animation: av-accordion-up 200ms ease-out; }
+
+/* Scroll suave em toda a página */
+html { scroll-behavior: smooth; }
+
+/* Foco acessível nos links e botões interativos */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--av-accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* === Animations === */
+@keyframes avFadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes avFadeScale {
+  from { opacity: 0; transform: scale(1.03); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* Hero: dispara no carregamento da página */
+.av-load {
+  opacity: 0;
+  animation: avFadeUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--d, 0s);
+}
+
+/* Hero image: fade + scale sutil no carregamento */
+.av-load-scale {
+  opacity: 0;
+  animation: avFadeScale 1.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--d, 0s);
+}
+
+/* Scroll-reveal: usa transition (mais confiável que animation+forwards) */
+.av-reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--d, 0s);
+}
+.av-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Oculta scrollbar do carrossel */
+.av-carousel {
+  scrollbar-width: none;
+}
+.av-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+/* Reduzir motion para usuários que preferem */
+@media (prefers-reduced-motion: reduce) {
+  .av-pulse { animation: none; }
+  .av-load,
+  .av-load-scale {
+    opacity: 1 !important;
+    animation: none !important;
+  }
+  .av-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
