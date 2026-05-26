@@ -22,7 +22,7 @@ mkdirSync(`${OUT}/static`, { recursive: true });
 mkdirSync(`${OUT}/functions/index.func`, { recursive: true });
 
 // ── 2. Copy static client assets ─────────────────────────────────────────────
-for (const entry of ["assets", "images", "robots.txt"]) {
+for (const entry of ["assets", "images", "robots.txt", "favicon.webp"]) {
   const src = `dist/client/${entry}`;
   if (existsSync(src)) cpSync(src, `${OUT}/static/${entry}`, { recursive: true });
 }
