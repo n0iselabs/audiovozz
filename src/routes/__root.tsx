@@ -75,11 +75,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "AudioVoz Centro Auditivo — São Miguel Paulista | Audiometria Grátis | Desde 1998" },
       { name: "description", content: "Clínica de saúde auditiva em São Miguel Paulista desde 1998. Teste e audiometria grátis. Mais de 25 anos de experiência. WhatsApp: (11) 95385-2353." },
       { name: "author", content: "AudioVoz — Centro Auditivo" },
-      { property: "og:title", content: "AudioVoz Centro Auditivo — São Miguel Paulista" },
-      { property: "og:description", content: "Clínica de saúde auditiva em São Miguel Paulista desde 1998. Teste e audiometria grátis." },
+      { property: "og:title", content: "AudioVoz Centro Auditivo — São Miguel Paulista | Audiometria Grátis | Desde 1998" },
+      { property: "og:description", content: "Clínica de saúde auditiva em São Miguel Paulista desde 1998. Teste e audiometria grátis. Mais de 25 anos de experiência. WhatsApp: (11) 95385-2353." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@audiovoz" },
+      { name: "twitter:title", content: "AudioVoz Centro Auditivo — São Miguel Paulista | Audiometria Grátis | Desde 1998" },
+      { name: "twitter:description", content: "Clínica de saúde auditiva em São Miguel Paulista desde 1998. Teste e audiometria grátis. Mais de 25 anos de experiência. WhatsApp: (11) 95385-2353." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/d7e09376-bcdd-4966-b4af-e469a081b833/id-preview-acc5ea0f--9ccc32a8-7d19-4044-804e-3f7df06c7064.lovable.app-1779764203428.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/d7e09376-bcdd-4966-b4af-e469a081b833/id-preview-acc5ea0f--9ccc32a8-7d19-4044-804e-3f7df06c7064.lovable.app-1779764203428.png" },
     ],
     links: [
       {
