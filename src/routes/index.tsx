@@ -243,9 +243,10 @@ function Hero() {
       <div aria-hidden className="absolute inset-0 lg:hidden">
         <img
           src="/images/jurandy-fonoaudiologo-audiovoz.webp"
-          srcSet="/images/jurandy-fonoaudiologo-audiovoz-500w.webp 500w, /images/jurandy-fonoaudiologo-audiovoz.webp 739w"
+          srcSet="/images/jurandy-fonoaudiologo-audiovoz-500w.webp 500w, /images/jurandy-fonoaudiologo-audiovoz.webp 739w, /images/jurandy-fonoaudiologo-audiovoz-1080w.webp 1080w"
           sizes="100vw"
           alt=""
+          fetchPriority="high"
           className="h-full w-full object-cover object-center"
         />
         <div
@@ -652,6 +653,7 @@ function ServiceCard({
     >
       {/* Número decorativo */}
       <span
+        aria-hidden="true"
         className="pointer-events-none absolute right-4 top-3 select-none font-mono text-[52px] font-bold leading-none"
         style={{ color: "rgba(26,45,90,0.055)" }}
       >
