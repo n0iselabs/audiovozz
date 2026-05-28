@@ -165,7 +165,7 @@ function Header() {
           <img
             src="/images/logo-audiovoz.webp"
             srcSet="/images/logo-audiovoz-200w.webp 200w, /images/logo-audiovoz.webp 846w"
-            sizes="96px"
+            sizes="(min-width: 768px) 70px, 63px"
             alt="AudioVoz"
             className="h-8 w-auto object-contain md:h-9"
           />
