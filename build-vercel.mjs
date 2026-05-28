@@ -22,7 +22,7 @@ mkdirSync(`${OUT}/static`, { recursive: true });
 mkdirSync(`${OUT}/functions/index.func`, { recursive: true });
 
 // ── 2. Copy static client assets ─────────────────────────────────────────────
-for (const entry of ["assets", "images", "robots.txt", "favicon.webp"]) {
+for (const entry of ["assets", "images", "fonts", "robots.txt", "favicon.webp"]) {
   const src = `dist/client/${entry}`;
   if (existsSync(src)) cpSync(src, `${OUT}/static/${entry}`, { recursive: true });
 }
@@ -118,6 +118,12 @@ writeFileSync(
         {
           src: "^/images/(.+)",
           headers: { "cache-control": "s-maxage=86400, stale-while-revalidate=3600" },
+          continue: true,
+        },
+        // Fonts: immutable cache (content-hashed filenames from Google Fonts CDN)
+        {
+          src: "^/fonts/(.+)",
+          headers: { "cache-control": "s-maxage=31536000, immutable" },
           continue: true,
         },
         // Serve matching files from static/ (CSS, JS, images, robots.txt)

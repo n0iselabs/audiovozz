@@ -167,6 +167,8 @@ function Header() {
             srcSet="/images/logo-audiovoz-200w.webp 200w, /images/logo-audiovoz.webp 846w"
             sizes="(min-width: 768px) 70px, 63px"
             alt="AudioVoz"
+            width={846}
+            height={433}
             className="h-8 w-auto object-contain md:h-9"
           />
         </a>
@@ -1644,6 +1646,8 @@ function Footer() {
               srcSet="/images/logo-audiovoz-200w.webp 200w, /images/logo-audiovoz.webp 846w"
               sizes="96px"
               alt="AudioVoz"
+              width={846}
+              height={433}
               className="h-10 w-auto object-contain md:h-12"
               loading="lazy"
             />
