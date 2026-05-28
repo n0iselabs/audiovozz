@@ -20,6 +20,9 @@ import {
   Activity,
   HeadphonesIcon,
   CheckCircle2,
+  Baby,
+  Sliders,
+  ClipboardList,
   Phone,
   Mail,
   Instagram,
@@ -34,7 +37,7 @@ export const Route = createFileRoute("/")({
 });
 
 const WA_LINK =
-  "https://wa.me/5511953852353?text=Ol%C3%A1!%20Vi%20a%20p%C3%A1gina%20da%20AudioVoz%20S%C3%A3o%20Miguel%20Paulista%20e%20gostaria%20de%20agendar%20minha%20audiometria%20gr%C3%A1tis.%20Pode%20me%20orientar%3F";
+  "https://wa.me/5511953852353?text=Ol%C3%A1!%20Vi%20a%20p%C3%A1gina%20da%20AudioVoz%20e%20gostaria%20de%20entender%20melhor%20como%20funciona%20o%20atendimento.%20Pode%20me%20orientar%3F";
 const WA_LINK_VISIT =
   "https://wa.me/5511953852353?text=Ol%C3%A1!%20Quero%20visitar%20a%20unidade%20de%20S%C3%A3o%20Miguel%20Paulista.%20Pode%20me%20orientar%3F";
 const WA_LINK_FLOAT =
@@ -160,7 +163,7 @@ function Header() {
       <div className="mx-auto flex h-16 max-w-[1200px] items-center justify-between px-5 md:h-[72px] md:px-8">
         <a href="#top" className="flex items-center gap-2" aria-label="AudioVoz — Centro Auditivo">
           <img
-            src="/images/logo-official.png"
+            src="/images/logo-audiovoz.webp"
             alt="AudioVoz"
             className="h-8 w-auto object-contain md:h-9"
           />
@@ -237,7 +240,7 @@ function Hero() {
       {/* ── Background foto — mobile only ── */}
       <div aria-hidden className="absolute inset-0 lg:hidden">
         <img
-          src="/images/jurandy_fono_sm.jpg"
+          src="/images/jurandy-fonoaudiologo-audiovoz.webp"
           alt=""
           className="h-full w-full object-cover object-center"
         />
@@ -257,7 +260,7 @@ function Hero() {
         style={{ "--d": "0.18s" } as React.CSSProperties}
       >
         <img
-          src="/images/jurandy_fono_sm.jpg"
+          src="/images/jurandy-fonoaudiologo-audiovoz.webp"
           alt=""
           className="h-full w-full object-cover object-[50%_25%]"
           style={{
@@ -320,21 +323,22 @@ function Hero() {
               style={{ backgroundColor: "var(--av-accent)" }}
             />
             <span className="text-[13px] font-medium tracking-wide text-white/85">
-              Fonoaudiólogo especialista · Desde 1998
+              Avaliação auditiva em São Miguel Paulista
             </span>
           </div>
           <h1
             className="av-load font-serif mt-5 text-[28px] font-bold leading-[1.15] md:text-[40px] lg:text-[48px]"
             style={{ "--d": "0.22s" } as React.CSSProperties}
           >
-            Centro Auditivo Especializado na Zona Leste de São Paulo.
+            Voltar a ouvir é voltar a participar.
           </h1>
           <p
-            className="av-load mt-5 max-w-[420px] text-[17px] leading-[1.6] text-white/90 md:text-[18px]"
+            className="av-load mt-5 text-[17px] leading-[1.6] text-white/90 md:text-[18px]"
             style={{ "--d": "0.34s" } as React.CSSProperties}
           >
-            A AudioVoz está no seu bairro. Avaliação auditiva, audiometria e aparelhos auditivos —
-            de quem cuida da audição de famílias da Zona Leste desde 1998.
+            Às vezes, a dificuldade auditiva afasta das conversas que importam. A AudioVoz está em
+            São Miguel Paulista desde 1998 para ajudar você ou alguém da sua família a ter mais
+            qualidade de vida.
           </p>
 
           {/* Trust stats — prova social */}
@@ -376,13 +380,13 @@ function Hero() {
             style={{ "--d": "0.58s" } as React.CSSProperties}
           >
             <WhatsAppButton href={WA_LINK} className="w-full md:w-auto">
-              Agende sua avaliação auditiva — Zona Leste
+              Agendar avaliação pelo WhatsApp
             </WhatsAppButton>
             <a href="#servicos" className="text-[14px] text-white underline underline-offset-4">
               Conheça nossos serviços
             </a>
             <p className="text-[13px] text-white/75">
-              O primeiro passo pode ser simples: agende sua avaliação auditiva gratuita.
+              Uma conversa pelo WhatsApp já é o suficiente para começar — para você ou para alguém da família.
             </p>
           </div>
         </div>
@@ -394,13 +398,13 @@ function Hero() {
 /* ---------------- TRUST BLOCK ---------------- */
 function TrustBlock() {
   const items = [
-    { icon: Clock, text: "Cuidando da audição de famílias desde 1998" },
+    { icon: Clock, text: "Fonoaudiólogo fundador desde 1998" },
+    { icon: MessageCircle, text: "Orientação honesta desde a primeira conversa" },
+    { icon: CheckCircle2, text: "Cada rotina auditiva é avaliada com cuidado" },
+    { icon: Wrench, text: "Ajustes vitalícios e acompanhamento contínuo" },
     { icon: CalendarCheck, text: "Avaliação auditiva gratuita" },
-    { icon: Star, text: "Nota 5 no Google com 733 avaliações" },
     { icon: Users, text: "Atendemos adultos, idosos e crianças" },
     { icon: MapPin, text: "Localizada em São Miguel Paulista, na Zona Leste" },
-    { icon: MessageCircle, text: "Agendamento pelo WhatsApp" },
-    { icon: Wrench, text: "Ajustes vitalícios e garantia de 2 anos" },
   ];
   return (
     <section
@@ -464,44 +468,28 @@ function TrustBlock() {
   );
 }
 
-/* ---------------- CTA MID ---------------- */
-function CtaMid() {
-  return (
-    <section className="py-8 md:py-12" style={{ backgroundColor: "#F6F3ED" }}>
-      <div className="av-reveal mx-auto flex max-w-[640px] flex-col items-center px-5 text-center">
-        <WhatsAppButton href={WA_LINK} className="w-full md:w-auto md:min-w-[360px]">
-          Agende sua avaliação auditiva
-        </WhatsAppButton>
-        <p className="mt-3 text-[14px]" style={{ color: "var(--av-text-2)" }}>
-          Fale pelo WhatsApp · na sua região · Sem compromisso.
-        </p>
-      </div>
-    </section>
-  );
-}
-
 /* ---------------- AUDIENCE ---------------- */
 function Audience() {
   const cards = [
     {
+      icon: Users,
+      title: "Para quem percebe que alguém próximo está se afastando das conversas",
+      text: "Você nota que seu pai, sua mãe ou um familiar está mais quieto, pede para repetir mais, ou evita reuniões? A AudioVoz atende famílias nesse momento — com orientação clara, paciência e cuidado real.",
+    },
+    {
       icon: Ear,
-      title: "Adultos com dificuldade auditiva",
-      text: "Você percebe que está pedindo para repetir mais do que antes? Ou que a televisão ficou alta demais? Qualquer sinal de dificuldade auditiva merece atenção. A AudioVoz está aqui para orientar você, desde a primeira conversa.",
+      title: "Para quem está pedindo para repetir mais do que antes",
+      text: "A televisão ficou alta, as conversas cansam mais rápido, os ambientes com barulho ficaram difíceis? Qualquer sinal merece atenção. A AudioVoz está aqui para orientar você desde a primeira conversa.",
     },
     {
-      icon: Heart,
-      title: "Familiares de idosos",
-      text: "Seu pai ou sua mãe está com dificuldade para ouvir e você quer ajudar? Sabemos que essa situação pode ser delicada. A AudioVoz atende famílias nesse momento com cuidado, paciência e orientação clara sobre as melhores opções.",
+      icon: Baby,
+      title: "Para famílias preocupadas com a audição ou a fala de uma criança",
+      text: "A audição é fundamental para o desenvolvimento da fala e do aprendizado. A AudioVoz oferece atendimento com atenção, acolhimento e no ritmo de cada criança — e com toda a orientação que a família precisa.",
     },
     {
-      icon: Sparkles,
-      title: "Crianças",
-      text: "O desenvolvimento auditivo é fundamental para a fala e o aprendizado. A AudioVoz oferece atendimento com atenção, acolhimento e respeito às necessidades de cada criança — e à tranquilidade de cada família.",
-    },
-    {
-      icon: HeadphonesIcon,
-      title: "Quem já usa aparelho auditivo",
-      text: "Já usa aparelho auditivo e precisa de ajuste, manutenção ou uma nova avaliação? A AudioVoz também cuida de quem já está em acompanhamento — com ajustes vitalícios e o mesmo cuidado de sempre.",
+      icon: Sliders,
+      title: "Para quem já usa aparelho e precisa de ajuste ou acompanhamento",
+      text: "Já usa aparelho auditivo e precisa de ajuste, manutenção ou nova avaliação? A AudioVoz acompanha você com ajustes vitalícios — o mesmo cuidado de sempre, pelo tempo que for necessário.",
     },
   ];
   return (
@@ -513,11 +501,11 @@ function Audience() {
       <div className="relative mx-auto w-full max-w-[1200px] px-5 md:px-8">
         <div className="av-reveal mx-auto max-w-3xl text-center">
           <H2>
-            A AudioVoz atende quem precisa de atenção auditiva — em qualquer fase da vida.
+            Para quem percebe que algo mudou — na própria audição ou na de alguém próximo.
           </H2>
           <p className="mt-4 text-[16px] leading-[1.65] md:text-[17px]" style={{ color: "var(--av-text-2)" }}>
-            Adultos, idosos, crianças ou quem já usa aparelho auditivo. Cada atendimento começa pela
-            escuta.
+            Familiares, pacientes, cônjuges, filhos — o atendimento começa entendendo quem você é
+            e o que você ou sua família precisa.
           </p>
         </div>
         <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
@@ -568,23 +556,45 @@ function AudienceCard({
   );
 }
 
+function HearingAidBatteryIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      {/* anel externo — corpo da bateria */}
+      <circle cx="12" cy="12" r="9" />
+      {/* face positiva — círculo interno */}
+      <circle cx="12" cy="12" r="5" />
+      {/* símbolo + — terminal positivo */}
+      <line x1="12" y1="10" x2="12" y2="14" />
+      <line x1="10" y1="12" x2="14" y2="12" />
+    </svg>
+  );
+}
+
 /* ---------------- SERVICES ---------------- */
 function Services() {
   const cards = [
     {
       icon: Activity,
-      title: "Audiometria",
-      text: "Avaliação da capacidade auditiva realizada com equipamento adequado e interpretação profissional. Um passo importante para entender como está sua audição e quais são as melhores opções de cuidado.",
+      title: "Avaliação Auditiva",
+      text: "O primeiro passo para entender o que está acontecendo, com orientação clara antes de qualquer decisão.",
     },
     {
       icon: Ear,
       title: "Aparelhos Auditivos",
-      text: "Seleção e adaptação de aparelhos auditivos com base na avaliação auditiva de cada pessoa. A indicação leva em conta suas necessidades reais — não apenas o produto disponível. Garantia de 2 anos e ajustes vitalícios incluídos.",
+      text: "A indicação leva em conta a rotina, o perfil auditivo e a realidade de cada pessoa — não apenas o produto disponível. Quem volta a ouvir, volta a participar. Garantia de 2 anos, ajustes vitalícios e parcelamento em até 12x sem juros.",
     },
     {
-      icon: Wrench,
+      icon: HearingAidBatteryIcon,
       title: "Modelos para Todo Perfil",
-      text: "Diversos modelos de aparelhos auditivos — das versões básicas às mais discretas e modernas. Baterias e acessórios disponíveis na unidade. Melhor preço da Zona Leste.",
+      text: "Opções básicas, discretas e modernas — para cada necessidade e cada estilo de vida. Baterias e acessórios disponíveis na unidade. O modelo certo é o que se adapta à pessoa, não ao contrário.",
     },
   ];
   return (
@@ -594,9 +604,9 @@ function Services() {
       style={{ background: "linear-gradient(180deg, #FAF8F4 0%, #F0EAE0 100%)" }}
     >
       <div className="av-reveal mx-auto max-w-3xl text-center">
-        <H2>O que oferecemos</H2>
+        <H2>Como ajudamos</H2>
         <p className="mt-4 text-[16px] md:text-[17px]" style={{ color: "var(--av-text-2)" }}>
-          Serviços de saúde auditiva com orientação especializada em cada etapa.
+          Cada serviço tem um propósito: entender, orientar e reconectar — no ritmo de cada pessoa.
         </p>
       </div>
       <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -696,6 +706,14 @@ function About() {
               É essa forma de atendimento — próxima, cuidadosa e sem pressa — que guia a AudioVoz na
               Zona Leste desde que Jurandy abriu as portas em 1998.
             </p>
+            <p
+              className="mt-5 text-[16px] leading-[1.75] md:text-[17px]"
+              style={{ color: "var(--av-text)" }}
+            >
+              Muitas pessoas chegam inseguras, sem saber se realmente precisam de um aparelho
+              auditivo. O papel da AudioVoz começa exatamente aí: entendendo cada caso com calma,
+              sem pressa para vender e sem pressa para decidir.
+            </p>
             <blockquote
               className="mt-8 rounded-xl px-5 py-4"
               style={{
@@ -707,8 +725,7 @@ function About() {
                 className="text-[15px] italic leading-[1.75]"
                 style={{ color: "var(--av-text-2)" }}
               >
-                "Não vendemos produto. Oferecemos cuidado. A diferença aparece desde a primeira
-                conversa."
+                "Não vendemos produto. Oferecemos cuidado. A diferença está em ouvir a história de cada pessoa antes de indicar qualquer caminho."
               </p>
             </blockquote>
           </div>
@@ -725,7 +742,7 @@ function About() {
               }}
             >
               <img
-                src="/images/10.jpg"
+                src="/images/jurandy-fonoaudiologo-sao-miguel.webp"
                 alt="Jurandy, fonoaudiólogo fundador da AudioVoz, na unidade de São Miguel Paulista"
                 className="h-full w-full object-cover"
                 loading="lazy"
@@ -753,20 +770,24 @@ function About() {
 function HowItWorks() {
   const steps = [
     {
+      icon: MessageCircle,
       title: "Você entra em contato",
-      text: "Mande uma mensagem pelo WhatsApp. Pode ser uma dúvida ou um pedido de agendamento da avaliação auditiva gratuita. A equipe responde e escuta o que você precisa.",
+      text: "Mande uma mensagem pelo WhatsApp. Pode ser uma dúvida, uma pergunta ou um pedido de agendamento. A equipe responde e escuta o que você precisa.",
     },
     {
-      title: "Você agenda sua avaliação auditiva gratuita",
-      text: "Sem custo, sem compromisso com qualquer compra. A AudioVoz oferece avaliação auditiva gratuita para que você possa entender como está sua audição antes de qualquer decisão.",
+      icon: CalendarCheck,
+      title: "Você agenda uma avaliação auditiva",
+      text: "Sem custo e sem compromisso de compra. A equipe confirma o horário pelo WhatsApp e orienta sobre o que esperar — para você ou para quem você quer cuidar.",
     },
     {
+      icon: ClipboardList,
       title: "Você recebe orientação clara",
-      text: "A equipe indica qual atendimento faz mais sentido para você ou para o familiar que precisa de cuidado — e tira todas as dúvidas antes de qualquer decisão.",
+      text: "A equipe explica o que encontrou, indica o que faz sentido — para você ou para o familiar que precisa de cuidado — e tira todas as dúvidas antes de qualquer decisão.",
     },
     {
+      icon: MapPin,
       title: "O atendimento acontece pertinho de você",
-      text: "Nossa unidade fica em São Miguel Paulista, com fácil acesso para toda a Zona Leste. A equipe confirma o horário pelo WhatsApp.",
+      text: "A unidade fica em São Miguel Paulista, na Zona Leste, com fácil acesso. A equipe confirma o horário pelo WhatsApp e você já sabe o que esperar.",
     },
   ];
   return (
@@ -824,13 +845,13 @@ function HowItWorks() {
               style={{ "--d": `${i * 0.12}s` } as React.CSSProperties}
             >
               <span
-                className="inline-flex h-11 w-11 items-center justify-center rounded-full text-[16px] font-bold text-white shrink-0"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full text-white shrink-0"
                 style={{
                   backgroundColor: "var(--av-primary)",
                   boxShadow: "0 4px 16px rgba(26,45,90,0.22), 0 1px 4px rgba(26,45,90,0.12)",
                 }}
               >
-                {i + 1}
+                <s.icon className="h-5 w-5" />
               </span>
               <h3
                 className="font-serif mt-4 text-[18px] font-semibold"
@@ -860,9 +881,9 @@ function HowItWorks() {
           ))}
         </ol>
         <div className="mt-12 flex flex-col items-center gap-3">
-          <WhatsAppButton href={WA_LINK}>Agende sua avaliação auditiva</WhatsAppButton>
+          <WhatsAppButton href={WA_LINK}>Agendar uma Avaliação Auditiva</WhatsAppButton>
           <p className="text-[13px]" style={{ color: "var(--av-text-2)" }}>
-            Fale pelo WhatsApp · na sua região · Sem compromisso
+            WhatsApp · São Miguel Paulista · Zona Leste
           </p>
         </div>
       </div>
@@ -873,34 +894,29 @@ function HowItWorks() {
 /* ---------------- TESTIMONIALS ---------------- */
 const TESTIMONIALS = [
   {
-    name: "Celia Alves",
-    context: "Filha de paciente",
-    text: "Fomos muito bem acolhidos... Trataram meu pai com empatia. É muito bom ver o sorriso no rosto do meu pai, que voltou a ouvir e agora pode interagir com todos a sua volta.",
-  },
-  {
     name: "Rosely Lima",
-    context: "Filha de paciente — 85 anos",
+    context: "Filha de paciente — mãe de 85 anos",
     text: "Venho agradecer pelo atendimento excelente. Foi muito gratificante ao presenciar a minha mãe ouvindo tudo — ela reviveu com 85 anos tendo aparelho auditivo. Ela disse que agora está vivendo.",
   },
   {
-    name: "Lea Belo",
-    context: "Cliente fiel",
-    text: "Já é o segundo aparelho que compro pra minha mãe na AudioVoz com o Jurandir. Um profissional competente, ético e acima de tudo humano. Não tem outro lugar — pode confiar, é sem dúvidas um profissional escasso no mercado.",
+    name: "Kelly Queiroz",
+    context: "Filha de paciente — veio de Itaim Paulista",
+    text: "Ver meu pai sorrindo e ficando totalmente realizado... só foi possível porque temos lugares incríveis como esse. Saímos de lá com o aparelho teste no mesmo dia.",
   },
   {
-    name: "Roberto Beserra da Silva",
-    context: "Primeiro aparelho auditivo",
-    text: "O que me fez escolher a AudioVoz foi o atendimento humanizado do Jurandy. Ele explicou em detalhes o aparelho ideal para meu caso e avaliou a questão financeira. Ele não me viu somente como um cliente na questão de fechar a venda.",
+    name: "Celia Alves",
+    context: "Filha de paciente",
+    text: "Fomos muito bem acolhidos. Trataram meu pai com empatia. É muito bom ver o sorriso no rosto do meu pai, que voltou a ouvir e agora pode interagir com todos à sua volta.",
+  },
+  {
+    name: "Nathalia Gradwool",
+    context: "Mãe de paciente — filho de 4 anos",
+    text: "Adoramos a experiência. Compramos o aparelho para o meu filho de 4 anos. Tínhamos consultado outras lojas, mas o tratamento na AudioVoz foi único — com muita atenção, cuidado e responsabilidade.",
   },
   {
     name: "Valéria Hosana",
     context: "Filha de paciente",
-    text: "O Jurandir consegue captar a necessidade do paciente de forma que nos traz segurança em estar neste lugar, num momento não tão fácil. Obrigada AudioVoz, por proporcionar ao meu pai a capacidade de ouvir melhor.",
-  },
-  {
-    name: "Neusa",
-    context: "2º aparelho auditivo",
-    text: "A AudioVoz me devolveu o prazer de ouvir os sons da vida. Adquiri o segundo aparelho auditivo — só tenho a agradecer ao Jurandy e sua equipe pelo excelente atendimento. Muito obrigada!",
+    text: "Um lugar acolhedor desde a recepção até a finalização. O Jurandir consegue captar a necessidade do paciente de forma que nos traz segurança num momento não tão fácil. Obrigada por proporcionar ao meu pai a capacidade de ouvir melhor.",
   },
   {
     name: "Josiane",
@@ -908,9 +924,59 @@ const TESTIMONIALS = [
     text: "Atendimento humanizado. O Dr. Jurandir foi muito atencioso com as necessidades da minha mãe — conversamos muito, não nos deixou sair de lá com nenhuma dúvida. Muito grata pelo atendimento de vocês!",
   },
   {
+    name: "Roberto Beserra da Silva",
+    context: "Primeiro aparelho auditivo",
+    text: "O que me fez escolher a AudioVoz foi o atendimento humanizado do Jurandy. Ele explicou em detalhes o aparelho ideal para meu caso e avaliou a questão financeira. Ele não me viu somente como um cliente na questão de fechar a venda.",
+  },
+  {
+    name: "Amanda Santos",
+    context: "Cliente AudioVoz",
+    text: "Ele não te empurra o mais caro — ele te mostra o porquê de ter algo de melhor qualidade.",
+  },
+  {
+    name: "Danilo Alkimin",
+    context: "Primeiro aparelho auditivo",
+    text: "A compra do aparelho mudou minha vida. Agora tenho liberdade para sair — vale a pena vir nessa clínica.",
+  },
+  {
+    name: "Neusa",
+    context: "Segundo aparelho auditivo",
+    text: "A AudioVoz me devolveu o prazer de ouvir os sons da vida. Adquiri o segundo aparelho auditivo — só tenho a agradecer ao Jurandy e sua equipe pelo excelente atendimento. Muito obrigada!",
+  },
+  {
+    name: "Lea Belo",
+    context: "Filha de paciente — segundo aparelho",
+    text: "Já é o segundo aparelho que compro pra minha mãe na AudioVoz. Um profissional competente, ético e acima de tudo humano. Não tem outro lugar — pode confiar, é sem dúvidas um profissional escasso no mercado.",
+  },
+  {
+    name: "Elaine Siqueira",
+    context: "Filha de paciente",
+    text: "Excelente atendimento, desde o primeiro contato pelo WhatsApp. Aparelhos de ótima qualidade e preços justos. Recomendo sem hesitar.",
+  },
+  {
+    name: "Manoel Silva",
+    context: "Cliente há mais de 10 anos",
+    text: "Meu aparelho durou 10 anos que comprei aqui. Hoje estou comprando mais dois aparelhos. A confiança no atendimento é o que me faz voltar sempre.",
+  },
+  {
+    name: "Edina Alves de Souza",
+    context: "Terceiro aparelho auditivo",
+    text: "Sou cliente há muitos anos. Hoje peguei meu 3º aparelho feito pela AudioVoz. Atendimento sempre impecável — não tem por que ir em outro lugar.",
+  },
+  {
     name: "Lenira Silva",
     context: "Cliente há mais de 30 anos",
-    text: "Sempre fomos muito bem atendidos. Meu esposo já comprou 2 aparelhos. Conhecemos eles há mais de 30 anos — sempre atenciosos.",
+    text: "Sempre fomos muito bem atendidos. Meu esposo já comprou 2 aparelhos. Conhecemos eles há mais de 30 anos — sempre atenciosos e cuidadosos.",
+  },
+  {
+    name: "Marisa Nacbhar",
+    context: "Paciente AudioVoz",
+    text: "Dr. Jurandir muito atencioso, explica tudo direitinho, dá condições de pagamento acessível. Gratidão pela volta ao prazer de ouvir o canto de um pássaro.",
+  },
+  {
+    name: "Francisca Maciel",
+    context: "Paciente AudioVoz",
+    text: "Estou muito feliz — vou passar a ouvir melhor e me sentindo assim mais inserida na sociedade. O cuidado que os profissionais têm com seus pacientes é de verdade.",
   },
 ];
 
@@ -958,7 +1024,7 @@ function Testimonials() {
     <section id="depoimentos" className="relative overflow-hidden py-14 md:py-20">
       {/* Background image */}
       <img
-        src="/images/clientes-audiovoz-fotos.jpg"
+        src="/images/clientes-audiovoz-sao-miguel.webp"
         alt=""
         aria-hidden
         loading="lazy"
@@ -986,11 +1052,11 @@ function Testimonials() {
         {/* Header */}
         <div className="av-reveal mx-auto max-w-3xl text-center">
           <h2 className="font-serif font-semibold text-[22px] leading-tight text-white md:text-[32px] lg:text-[36px]">
-            O que dizem nossos pacientes
+            O que dizem famílias que passaram pela AudioVoz
           </h2>
           <p className="mt-4 text-[16px] leading-[1.65] text-white/75 md:text-[17px]">
-            Mais de 730 famílias avaliaram a AudioVoz no Google — todas com nota máxima. Veja o que
-            elas dizem sobre o atendimento.
+            Mais de 730 famílias avaliaram a AudioVoz no Google — histórias de quem voltou a
+            participar. Todas com nota máxima.
           </p>
           {/* Stats display — 3 números reais em destaque */}
           <div className="mt-7 flex flex-wrap items-start justify-center gap-0">
@@ -1102,10 +1168,10 @@ function Testimonials() {
       {/* CTA integrado — pico emocional pós depoimentos */}
       <div className="av-reveal relative mt-10 flex flex-col items-center gap-3 px-5 pb-2 text-center md:px-8">
         <WhatsAppButton href={WA_LINK} className="md:min-w-[360px]">
-          Agende sua avaliação auditiva
+          Falar com a AudioVoz
         </WhatsAppButton>
         <p className="text-[13px] text-white/60">
-          Fale pelo WhatsApp · na sua região · Sem compromisso.
+          WhatsApp · São Miguel Paulista · Zona Leste
         </p>
       </div>
     </section>
@@ -1390,6 +1456,26 @@ function Location() {
 function FAQ() {
   const items = [
     [
+      "Preciso decidir algo já na primeira consulta?",
+      "Não. A primeira consulta é só para entender — você ouve as opções, tira todas as dúvidas e decide com calma. Não existe pressão, não existe prazo. A AudioVoz acredita que a decisão certa vem depois da informação certa.",
+    ],
+    [
+      "Vocês ajudam a entender qual solução faz mais sentido para o meu caso?",
+      "Sim. Esse é o ponto central da AudioVoz. Antes de qualquer indicação, a equipe avalia o caso, entende a rotina e orienta com honestidade — incluindo quando a melhor opção ainda não é um aparelho auditivo.",
+    ],
+    [
+      "Como funciona o processo de adaptação ao aparelho auditivo?",
+      "A adaptação é gradual e acompanhada. O fonoaudiólogo programa o aparelho de acordo com o perfil auditivo e faz os ajustes necessários ao longo do tempo — sem custo adicional. O processo é feito no ritmo de cada pessoa.",
+    ],
+    [
+      "Posso agendar para um familiar que está com dificuldade auditiva?",
+      "Sim. A maioria dos nossos pacientes vem pela primeira vez acompanhada de um familiar. Você pode agendar pelo WhatsApp para qualquer pessoa — basta informar para quem é a avaliação. A equipe orienta você sobre como funciona o atendimento desde o primeiro contato.",
+    ],
+    [
+      "Vocês têm parcelamento para aparelhos auditivos?",
+      "Sim. Os aparelhos auditivos podem ser parcelados em até 12x sem juros. Cada caso é diferente, então durante a avaliação a equipe apresenta as opções de pagamento adaptadas à sua realidade.",
+    ],
+    [
       "Como saber se preciso de uma avaliação auditiva?",
       "Se você percebe que está pedindo para as pessoas repetirem com mais frequência, que o volume da televisão aumentou, ou que está com dificuldade em ambientes com barulho — esses podem ser sinais de que vale a pena conversar com um profissional. A equipe da AudioVoz pode orientar você sobre os próximos passos pelo WhatsApp.",
     ],
@@ -1481,7 +1567,7 @@ function CtaFinal() {
   return (
     <section className="relative overflow-hidden py-16 text-white md:py-24">
       <img
-        src="/images/frente-audiovoz.jpg"
+        src="/images/fachada-audiovoz-sao-miguel-paulista.webp"
         alt=""
         aria-hidden
         loading="lazy"
@@ -1515,19 +1601,23 @@ function CtaFinal() {
       />
       <div className="av-reveal relative mx-auto max-w-2xl px-5 text-center md:px-8">
         <h2 className="font-serif text-[30px] font-bold leading-[1.2] md:text-[42px]">
-          Cuide da sua audição na Zona Leste.
+          O primeiro passo é conversar. O resto, a AudioVoz ajuda você a entender com calma.
         </h2>
         <p className="mt-6 text-[17px] leading-[1.7] text-white/85 md:text-[18px]">
-          A AudioVoz oferece avaliação auditiva gratuita. Agende pelo WhatsApp e venha entender como
-          está sua audição — com orientação clara, acolhedora e sem custo.
+          A AudioVoz está em São Miguel Paulista para ajudar você ou alguém da sua família a
+          encontrar a melhor solução — com orientação honesta, cuidado real e sem pressa para
+          decidir.
         </p>
-        <div className="mt-10 flex justify-center">
+        <p className="mt-8 text-[15px] italic text-white/70">
+          "Ela disse que agora está vivendo." — Rosely Lima, sobre sua mãe de 85 anos.
+        </p>
+        <div className="mt-6 flex justify-center">
           <WhatsAppButton href={WA_LINK} large>
-            Agende sua avaliação auditiva — São Miguel Paulista
+            Quero marcar uma avaliação auditiva
           </WhatsAppButton>
         </div>
         <p className="mt-5 text-[13px] text-white/60">
-          Estamos aqui, pertinho. Agende pelo WhatsApp.
+          Dar o primeiro passo agora pode evitar meses de dúvida, esforço e conversas perdidas.
         </p>
       </div>
     </section>
@@ -1542,7 +1632,7 @@ function Footer() {
         <div>
           <a href="#top" aria-label="AudioVoz — Centro Auditivo">
             <img
-              src="/images/logo-official.png"
+              src="/images/logo-audiovoz.webp"
               alt="AudioVoz"
               className="h-10 w-auto object-contain md:h-12"
               loading="lazy"

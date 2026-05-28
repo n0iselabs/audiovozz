@@ -89,7 +89,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://sm.audiovozsp.com.br" },
-      { property: "og:image", content: "https://sm.audiovozsp.com.br/images/frente-audiovoz.jpg" },
+      { property: "og:image", content: "https://sm.audiovozsp.com.br/images/fachada-audiovoz-sao-miguel-paulista.webp" },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -102,7 +102,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Clínica de saúde auditiva em São Miguel Paulista desde 1998. Avaliação auditiva gratuita com fonoaudiólogo especialista. Mais de 3.000 pacientes atendidos. WhatsApp: (11) 95385-2353.",
       },
-      { name: "twitter:image", content: "https://sm.audiovozsp.com.br/images/frente-audiovoz.jpg" },
+      { name: "twitter:image", content: "https://sm.audiovozsp.com.br/images/fachada-audiovoz-sao-miguel-paulista.webp" },
     ],
     links: [
       {
