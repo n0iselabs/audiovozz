@@ -164,6 +164,8 @@ function Header() {
         <a href="#top" className="flex items-center gap-2" aria-label="AudioVoz — Centro Auditivo">
           <img
             src="/images/logo-audiovoz.webp"
+            srcSet="/images/logo-audiovoz-200w.webp 200w, /images/logo-audiovoz.webp 846w"
+            sizes="96px"
             alt="AudioVoz"
             className="h-8 w-auto object-contain md:h-9"
           />
@@ -241,6 +243,8 @@ function Hero() {
       <div aria-hidden className="absolute inset-0 lg:hidden">
         <img
           src="/images/jurandy-fonoaudiologo-audiovoz.webp"
+          srcSet="/images/jurandy-fonoaudiologo-audiovoz-500w.webp 500w, /images/jurandy-fonoaudiologo-audiovoz.webp 739w"
+          sizes="100vw"
           alt=""
           className="h-full w-full object-cover object-center"
         />
@@ -261,6 +265,8 @@ function Hero() {
       >
         <img
           src="/images/jurandy-fonoaudiologo-audiovoz.webp"
+          srcSet="/images/jurandy-fonoaudiologo-audiovoz-500w.webp 500w, /images/jurandy-fonoaudiologo-audiovoz.webp 739w"
+          sizes="660px"
           alt=""
           className="h-full w-full object-cover object-[50%_25%]"
           style={{
@@ -1633,6 +1639,8 @@ function Footer() {
           <a href="#top" aria-label="AudioVoz — Centro Auditivo">
             <img
               src="/images/logo-audiovoz.webp"
+              srcSet="/images/logo-audiovoz-200w.webp 200w, /images/logo-audiovoz.webp 846w"
+              sizes="96px"
               alt="AudioVoz"
               className="h-10 w-auto object-contain md:h-12"
               loading="lazy"
