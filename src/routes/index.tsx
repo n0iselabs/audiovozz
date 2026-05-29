@@ -245,7 +245,7 @@ function Hero() {
       <div aria-hidden className="absolute inset-0 lg:hidden">
         <img
           src="/images/jurandy-fonoaudiologo-audiovoz.webp"
-          srcSet="/images/jurandy-fonoaudiologo-audiovoz-500w.webp 500w, /images/jurandy-fonoaudiologo-audiovoz.webp 739w, /images/jurandy-fonoaudiologo-audiovoz-1080w.webp 1080w"
+          srcSet="/images/jurandy-fonoaudiologo-audiovoz-430w.webp 430w, /images/jurandy-fonoaudiologo-audiovoz-500w.webp 500w, /images/jurandy-fonoaudiologo-audiovoz.webp 768w, /images/jurandy-fonoaudiologo-audiovoz-1080w.webp 1080w"
           sizes="100vw"
           alt=""
           fetchPriority="high"
@@ -268,7 +268,7 @@ function Hero() {
       >
         <img
           src="/images/jurandy-fonoaudiologo-audiovoz.webp"
-          srcSet="/images/jurandy-fonoaudiologo-audiovoz-500w.webp 500w, /images/jurandy-fonoaudiologo-audiovoz.webp 739w"
+          srcSet="/images/jurandy-fonoaudiologo-audiovoz-500w.webp 500w, /images/jurandy-fonoaudiologo-audiovoz.webp 768w"
           sizes="660px"
           alt=""
           className="h-full w-full object-cover object-[50%_25%]"
