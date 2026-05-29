@@ -1077,7 +1077,7 @@ function Location() {
               </p>
               <h3 className="font-serif mt-1 text-[20px] font-semibold">Guarulhos</h3>
               <p className="mt-3 text-[15px] text-white/85">
-                Carrefour Vila Rios — Av. Benjamin Harris Hunicutt, S/N - Pinheiros, Guarulhos - SP
+                Carrefour Vila Rios — Av. Benjamin Harris Hunicutt, S/N - Vila Rio, Guarulhos - SP
               </p>
               <p className="mt-3 flex items-center gap-2 text-[15px] text-white/90">
                 <WhatsAppIcon className="h-4 w-4" /> (11) 91761-4652
@@ -1309,7 +1309,7 @@ function Footer() {
               Guarulhos (Filial)
             </p>
             <p className="mt-2 leading-[1.65]">
-              Carrefour Vila Rios — Av. Benjamin Harris Hunicutt, S/N - Pinheiros, Guarulhos - SP,
+              Carrefour Vila Rios — Av. Benjamin Harris Hunicutt, S/N - Vila Rio, Guarulhos - SP,
               CEP: 07124-000
             </p>
             <p className="mt-1">WhatsApp: (11) 91761-4652</p>
