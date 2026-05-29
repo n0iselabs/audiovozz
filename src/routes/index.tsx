@@ -268,9 +268,10 @@ function Hero() {
       >
         <img
           src="/images/jurandy-fonoaudiologo-audiovoz.webp"
-          srcSet="/images/jurandy-fonoaudiologo-audiovoz-500w.webp 500w, /images/jurandy-fonoaudiologo-audiovoz.webp 768w"
+          srcSet="/images/jurandy-fonoaudiologo-audiovoz-500w.webp 500w, /images/jurandy-fonoaudiologo-audiovoz.webp 768w, /images/jurandy-fonoaudiologo-audiovoz-1080w.webp 1080w"
           sizes="660px"
           alt=""
+          fetchPriority="high"
           className="h-full w-full object-cover object-[50%_25%]"
           style={{
             maskImage:
@@ -753,7 +754,11 @@ function About() {
             >
               <img
                 src="/images/jurandy-fonoaudiologo-sao-miguel.webp"
+                srcSet="/images/jurandy-fonoaudiologo-sao-miguel-440w.webp 440w, /images/jurandy-fonoaudiologo-sao-miguel-880w.webp 880w, /images/jurandy-fonoaudiologo-sao-miguel.webp 1080w"
+                sizes="(min-width: 768px) 440px, calc(100vw - 40px)"
                 alt="Jurandy, fonoaudiólogo fundador da AudioVoz, na unidade de São Miguel Paulista"
+                width={1080}
+                height={1440}
                 className="h-full w-full object-cover"
                 loading="lazy"
               />
