@@ -113,7 +113,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "canonical", href: "https://sm.audiovozsp.com.br" },
       { rel: "preload", href: "/fonts/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2", as: "font", type: "font/woff2", crossOrigin: "anonymous" },
       { rel: "preload", href: "/fonts/0QIvMX1D_JOuMwr7Iw.woff2", as: "font", type: "font/woff2", crossOrigin: "anonymous" },
-      { rel: "preload", href: "/images/jurandy-fonoaudiologo-audiovoz.webp", as: "image", media: "(min-width: 1024px)" },
+      { rel: "preload", href: "/images/jurandy-fonoaudiologo-audiovoz.webp", as: "image", media: "(min-width: 1024px)", fetchPriority: "high" },
     ],
   }),
   shellComponent: RootShell,

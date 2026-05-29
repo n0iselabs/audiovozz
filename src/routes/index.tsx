@@ -271,7 +271,6 @@ function Hero() {
           srcSet="/images/jurandy-fonoaudiologo-audiovoz-500w.webp 500w, /images/jurandy-fonoaudiologo-audiovoz.webp 768w, /images/jurandy-fonoaudiologo-audiovoz-1080w.webp 1080w"
           sizes="660px"
           alt=""
-          fetchPriority="high"
           className="h-full w-full object-cover object-[50%_25%]"
           style={{
             maskImage:
