@@ -229,7 +229,10 @@
   background-size: 128px 128px;
 }
 
-html,
+html {
+  background-color: var(--av-footer);
+}
+
 body {
   background-color: var(--av-bg);
   color: var(--av-text);
@@ -252,7 +255,6 @@ body {
   100% { transform: scale(1.65); opacity: 0; }
 }
 .av-pulse {
-  position: relative;
   box-shadow: 0 6px 20px rgba(37, 211, 102, 0.35);
 }
 .av-pulse::before {
